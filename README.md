@@ -185,7 +185,7 @@ Open a command prompt, change to the Mini-NVR installation folder, and execute:
 bat
 
 ```bat
-C:\mini-nvr> start-mini-nvr.bat
+C:\mini-nvr> start.bat
 ```
 
 This automatically launches:
