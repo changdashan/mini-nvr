@@ -369,7 +369,7 @@ To enable remote access, you need to configure port forwarding on your home Wi-F
 
 The following screenshot shows an example of port-forwarding settings on a Verizon Wi-Fi router.
 
-            <img src="./public/setup_portforwarding_on_wifi_router.png" width="1000">
+![Portforwarding Example](./public/setup_portforwarding_on_wifi_router.png)
 
 To access your router's configuration page:
 
