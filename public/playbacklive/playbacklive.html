@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Playback Live Recordings</title>
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <style>
+        .recording-container {
+            display: flex;
+            flex-direction: column;
+            /* Stacks the child divs vertically */
+            justify-content: center;
+            /* Centers horizontally */
+            align-items: center;
+            /* Centers vertically (requires container height) */
+            text-align: center;
+        }
+
+        .camera-container {
+            display: flex;
+            justify-content: center;
+            /* Centers horizontally */
+            gap: 20px;
+            align-items: center;
+            /* Centers vertically (requires container height) */
+            text-align: center;
+        }
+
+        .clip-playback-container {
+            display: flex;
+            flex-direction: column;
+            /* Stacks the child divs vertically */
+            justify-content: center;
+            /* Centers horizontally */
+            align-items: center;
+            /* Centers vertically (requires container height) */
+            text-align: center;
+        }
+
+        .cliplist {
+            width: 400px;
+            height: 200px;
+            border: thin solid lightgray;
+            display: inline-flexbox;
+            overflow-y: auto;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .playback {
+            width: 1280px;
+            height: 720px;
+            border: thin solid lightgray;
+            display: inline-flexbox;
+            overflow: hidden;
+        }
+
+        .playback-controls {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            width: min(1280px, 90vw);
+            margin: 8px auto;
+        }
+
+        .playback-controls input[type="range"] {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .playback-controls button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 32px;
+        }
+
+        .playback-icon {
+            display: block;
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .playback-icon[hidden] {
+            display: none;
+        }
+
+        .controls {
+            padding: 10px;
+        }
+
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+
+        label, span {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: small;
+        }        
+
+    </style>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script type="text/javascript" src="../requestauthtoken.js"></script>
+
+
+</head>
+
+<body>
+
+    <main>
+        <div class="recording-container">
+            <div class="controls">
+                <!--h4>Playback Recordings/h4-->
+                <select id="lastHoursRange">
+                    <option value="4" selected>Last 4 Hours</option>
+                    <option value="8">Last 8 Hours</option>
+                    <option value="24">Last 24 Hours</option>
+                    <option value="48">Last 2 Days</option>
+                    <option value="72">Last 3 Days</option>
+                    <option value="96">Last 4 Days</option>
+                    <option value="120">Last 5 Days</option>
+                </select>
+
+                <button id="btnShowRecordings">Show Recordings</button>
+
+                <!--label for="dateRange">Date range:</label>
+                <input type="text" id="dateRange" placeholder="Select start and end dates" readonly-->
+                <table><tr><td nowrap>
+                    <label for="beginDateTime">From:</label>
+                    <input type="datetime-local" id="beginDateTime" name="beginDateTime">
+                    <span id="beginDateTimeError" class="error"></span>
+                </td><td nowrap>
+                    <label for="endDateTime">To:</label>
+                    <input type="datetime-local" id="endDateTime" name="endDateTime">
+                    <span id="endDateTimeError" class="error"></span>
+                </td><td>
+                    <button id="btnShowRecordingsByDateRange">Search</button>
+                </td></tr></table>
+            </div>
+        </div>
+    
+        <div id="clip_playback_div" class="clip-playback-container">
+            <span id='count_info'></span>
+            <div>
+                <div id="cliplist" class="cliplist"></div>
+                <div id="cliplist_buttons">
+                    <button id="btnSlideShow" onclick="slideShowClip()">Start Slide Show</button>                   
+                    <button id="btnUp" onclick="moveUpClip()">Up</button>
+                    <button id="btnDown" onclick="moveDownClip()">Down</button>
+                </div>
+            </div>
+            <div id="playbackControls" class="playback-controls">
+                <button id="playPauseButton" type="button" aria-label="Pause playback" title="Pause playback">
+                    <svg id="playIcon" class="playback-icon" viewBox="0 0 24 24" aria-hidden="true" hidden>
+                        <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                    <svg id="pauseIcon" class="playback-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 5h4v14H6zm8 0h4v14h-4z"></path>
+                    </svg>
+                </button>
+                <span id="playbackCurrentTime">0:00</span>
+                <input id="playbackSeek" type="range" min="0" max="1000" value="0" step="1"
+                    aria-label="Seek through recording" disabled>
+                <span id="playbackDuration">0:00</span>
+            </div>
+            <div id="playbackDiv">
+                <div id="videoShowRecording">
+                    <canvas id="playbackcanvas" width="1280" height="720"></canvas>
+                </div>
+            </div><br />
+        </div>
+    </main>
+
+    <script src="jsmpeg.min.js"></script>
+    <script src="playbacklive.js"></script>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const beginDateTimeInput = document.getElementById("beginDateTime");
+            const endDateTimeInput = document.getElementById("endDateTime"); 
+            const now = new Date();
+            const localtime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+
+            beginDateTimeInput.value = new Date(localtime.getTime() - 2 * 60 * 60 * 1000).toISOString().slice(0, 16); // Default to 2 hour ago
+            endDateTimeInput.value = new Date(localtime.getTime()).toISOString().slice(0, 16);  // Default to now    
+        });
+
+    </script>
+
+</body>
+
+</html>

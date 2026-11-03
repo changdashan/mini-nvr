@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mini NVR</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background-color: #111;
+
+            overflow: hidden;
+        }
+
+
+        /* =========================================================
+           TOP HEADER
+           ========================================================= */
+
+        .top-header {
+            width: 100%;
+            height: 64px;
+
+            display: flex;
+            align-items: center;
+
+            background-color: #202020;
+
+            border-bottom: 2px solid #007bff;
+
+            color: white;
+        }
+
+        .sidebar-toggle {
+            display: none;
+
+            width: 42px;
+            height: 42px;
+
+            margin-left: 10px;
+
+            border: 1px solid #3e3e3e;
+            border-radius: 8px;
+
+            background-color: #2b2b2b;
+            color: white;
+
+            font-size: 22px;
+            line-height: 1;
+
+            cursor: pointer;
+        }
+
+        .sidebar-toggle:hover {
+            background-color: #363636;
+        }
+
+
+        /* =========================================================
+           LOGO
+           ========================================================= */
+
+        .logo-container {
+            width: max-content; /* Shrinks container to fit only the content */
+            height: 100%;
+
+            display: grid;
+            align-items: center;
+
+            padding-top: 8px;
+            padding-left: 15px;
+            padding-right: 15px;
+
+            gap: 12px;
+
+            border-right: 1px solid #383838;
+        }
+
+
+        /* =========================================================
+           TOP NAVIGATION
+           ========================================================= */
+
+        .top-nav {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            /*
+             * This moves the menu toward the middle.
+             */
+            margin-left: 35px;
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            white-space: nowrap;
+
+            scrollbar-width: none;
+        }
+
+        .top-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        .nav-item {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 17px;
+
+            color: #cfcfcf;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            border-left: 1px solid transparent;
+            border-right: 1px solid transparent;
+
+            transition:
+                background-color 0.2s,
+                color 0.2s;
+        }
+
+        .nav-item:hover {
+            background-color: #333;
+
+            color: white;
+        }
+
+        .nav-item.active {
+            background-color: #007bff;
+
+            color: white;
+
+            border-left-color: #168cff;
+            border-right-color: #168cff;
+        }
+
+
+        /* =========================================================
+           MAIN LAYOUT
+           ========================================================= */
+
+        .main-container {
+            position: relative;
+            display: flex;
+
+            width: 100%;
+            height: calc(100vh - 64px);
+        }
+
+        .sidebar-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            opacity: 0;
+            pointer-events: none;
+
+            transition: opacity 0.2s ease;
+        }
+
+        .main-container.sidebar-open .sidebar-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+
+        /* =========================================================
+           CAMERA SIDEBAR
+           ========================================================= */
+
+        .camera-sidebar {
+            width: 200px;
+            min-width: 200px;
+
+            height: 100%;
+
+            background-color: #252525;
+
+            border-right: 1px solid #444;
+
+            overflow-y: auto;
+        }
+
+        .camera-title {
+            padding: 18px 15px;
+
+            color: #999;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+
+            border-bottom: 1px solid #3d3d3d;
+            height: 64px;
+        }
+
+        .camera-item {
+            display: block;
+
+            width: 100%;
+
+            padding: 14px 18px;
+
+            color: #ddd;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            border-bottom: 1px solid #333;
+
+            transition:
+                background-color 0.2s,
+                color 0.2s;
+        }
+
+        .camera-item:hover {
+            background-color: #3a3a3a;
+
+            color: white;
+        }
+
+        .camera-item.active {
+            background-color: #007bff;
+
+            color: white;
+        }
+
+
+        /* =========================================================
+           DEMO AREA
+           ========================================================= */
+
+        .demo-container {
+            flex: 1;
+
+            width: calc(100% - 200px);
+
+            height: 100%;
+
+            background-color: #111;
+        }
+
+        #liveViewPortFrame {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            border: none;
+        }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .logo-container {
+                width: max-content;
+                min-width: unset;
+                padding-left: 15px;
+            }
+
+            .logo-text {
+                display: none;
+            }
+
+            .top-nav {
+                margin-left: 20px;
+            }
+
+            .nav-item {
+                padding: 0 12px;
+
+                font-size: 13px;
+            }
+
+            .sidebar-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .logo-container {
+                width: max-content;
+                min-width: unset;
+                padding-left: 15px;
+                border-right: none;
+            }
+
+            .top-nav {
+                margin-left: 5px;
+            }
+
+            .camera-sidebar {
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 30;
+
+                width: min(62vw, 190px);
+                min-width: 0;
+
+                transform: translateX(-105%);
+                transition: transform 0.2s ease;
+            }
+
+            .camera-sidebar.is-open {
+                transform: translateX(0);
+            }
+
+            .camera-title {
+                padding: 12px 10px;
+                height: auto;
+                font-size: 12px;
+                letter-spacing: 0.5px;
+            }
+
+            .camera-item {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+
+            .sidebar-toggle {
+                width: 36px;
+                height: 36px;
+                margin-left: 8px;
+                font-size: 18px;
+            }
+
+            .demo-container {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- =========================================================
+         TOP HEADER
+         ========================================================= -->
+
+    <header class="top-header">
+
+
+        <!-- =====================================================
+             SURVEILLANCE CAMERA LOGO
+             ===================================================== -->
+
+        <button id="cameraSidebarToggle" class="sidebar-toggle" type="button" aria-label="Toggle camera sidebar" aria-expanded="true">☰</button>
+
+        <div class="logo-container">
+            <a href="/public/readme.html" onclick="showLiveViewPortPage(event, this)" style="text-decoration:none;">
+                <!--div class="logo-camera"></div-->
+                <table><tr>
+                    <td><img src="cctv-camera.png" width="45 height="45"></td>
+                    <td style="padding-left:10px;"><font color="white"><strong>Mini-NVR</strong></font></td>
+                </tr></table>>                
+            </a>
+        </div>
+
+
+        <!-- =====================================================
+             PLAYER NAVIGATION
+             ===================================================== -->
+
+        <nav class="top-nav">
+
+            <!--a href="/public/player_h264/demo.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                H264 Player (Web)
+            </a-->
+
+            <!--a href="/public/player_h264/demo-ww.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                H264 Player (Worker)
+            </a-->
+
+            <!--a href="/public/player_jsmpeg/demo.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                JSMpeg Player
+            </a-->
+
+            <!--a href="/public/player_vp8/demo.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                WebM/VP8 Player
+            </a-->
+
+            <!--a href="/public/live_view_one/live_view_one.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                Live View One
+            </a-->
+
+            <a href="/public/start_stop_streaming/start_stop_streaming.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Start or Stop Streaming">
+                Start & Stop
+            </a>
+
+            <a href="/public/live_view_more/live_view_more.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                Live View
+            </a> 
+
+            <!--a href="./player_cmd/demo.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                CMD Player
+            </a--> 
+
+            <a href="/public/footage_reviewer/footageReviewer.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                Event Review
+            </a>  
+
+            <a href="/public/playbacklive/playbacklive.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                Playback Recordings
+            </a>             
+
+            <a href="/public/video_recorder/MediaRecorder.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                Web Recorder                
+            </a>
+            
+            <a href="/public/license.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                License                
+            </a>              
+
+            <a href="/public/login.html" class="nav-item" onclick="logout()">
+                Logout
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+         ========================================================= -->
+
+    <div class="main-container" id="mainContainer">
+
+        <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+        <!-- =====================================================
+             CAMERA SIDEBAR
+             ===================================================== -->
+
+        <aside class="camera-sidebar" id="cameraSidebar">
+
+            <div class="camera-title">
+                Cameras
+            </div>
+
+            <div id="cameralist">
+
+            </div>
+
+        </aside>
+
+
+        <!-- =====================================================
+             DEMO / PLAYER
+             ===================================================== -->
+
+        <main class="demo-container">
+
+            <iframe id="liveViewPortFrame" title="Video Player Demo" style="background-color: white;">
+            </iframe>
+
+        </main>
+
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+         ========================================================= -->
+
+    <script>
+
+        /*
+         * Currently selected camera.
+         */
+        let selectedSiteId = ""
+        let selectedCameraId = "";
+        let selectedCameraName = "";
+        const mainContainer = document.getElementById('mainContainer');
+        const cameraSidebar = document.getElementById('cameraSidebar');
+        const sidebarToggle = document.getElementById('cameraSidebarToggle');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function syncMobileSidebarState() {
+            const isMobile = window.matchMedia('(max-width: 600px)').matches;
+
+            if (!isMobile) {
+                cameraSidebar.classList.remove('is-open');
+                mainContainer.classList.remove('sidebar-open');
+                sidebarToggle.setAttribute('aria-expanded', 'true');
+                sidebarToggle.textContent = '☰';
+                return;
+            }
+
+            const isOpen = cameraSidebar.classList.contains('is-open');
+            sidebarToggle.setAttribute('aria-expanded', String(isOpen));
+            sidebarToggle.textContent = isOpen ? '✕' : '☰';
+        }
+
+        function toggleCameraSidebar() {
+            const isMobile = window.matchMedia('(max-width: 600px)').matches;
+            if (!isMobile) {
+                return;
+            }
+
+            const willOpen = !cameraSidebar.classList.contains('is-open');
+            cameraSidebar.classList.toggle('is-open', willOpen);
+            mainContainer.classList.toggle('sidebar-open', willOpen);
+            syncMobileSidebarState();
+        }
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', toggleCameraSidebar);
+        }
+
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', () => {
+                cameraSidebar.classList.remove('is-open');
+                mainContainer.classList.remove('sidebar-open');
+                syncMobileSidebarState();
+            });
+        }
+
+        window.addEventListener('resize', syncMobileSidebarState);
+
+        //-----------------------------------------------------------------------------------------
+        /*
+         * Change the player/demo.
+         */
+        function showLiveViewPortPage(event, element) {
+
+            event.preventDefault();
+            const link = event.currentTarget;
+            const parsedUrl = new URL(link.href, window.location.href);
+            // Replace this with however you obtain your token
+            const token = sessionStorage.getItem("auth");
+            parsedUrl.searchParams.set("token", token);
+
+            const viewPortFrame = document.getElementById("liveViewPortFrame");
+
+
+            /*
+             * Preserve the currently selected camera.
+             */
+            //const url = new URL(element.href, window.location.href);
+
+            document.querySelectorAll(".camera-item")
+                .forEach(item => {
+                    if (item.classList.contains("active")){
+                        selectedSiteId = item.dataset.site;
+                        selectedCameraId = item.dataset.camera;
+                        selectedCameraName = item.textContent;
+                    }
+                });
+            console.log("selectedSiteId:" + selectedSiteId + " selectedCameraId: " + selectedCameraId + " selectedCameraName: " + selectedCameraName);
+            parsedUrl.searchParams.set("site", selectedSiteId);
+            parsedUrl.searchParams.set("camera", selectedCameraId);
+            parsedUrl.searchParams.set("label", selectedCameraName);
+
+
+            /*
+             * Load the selected demo.
+             */
+            //frame.src = url.toString();
+            viewPortFrame.src = parsedUrl.toString();
+
+
+            /*
+             * Update active menu item.
+             */
+            document.querySelectorAll(".nav-item")
+                .forEach(item => {
+                    item.classList.remove("active");
+                });
+
+            element.classList.add("active");
+        }
+
+        //-----------------------------------------------------------------------------------------
+        /*
+         * Select a camera.
+         */
+        async function selectCamera(event, element) {
+
+            event.preventDefault();
+
+            /*
+             * Get camera ID.
+             */
+            selectedSiteId = element.dataset.site;
+            selectedCameraId = element.dataset.camera;
+            selectedCameraName = element.textContent;
+
+            /*
+             * Update sidebar selection.
+             */
+            document.querySelectorAll(".camera-item")
+                .forEach(item => {
+                    item.classList.remove("active");
+                });
+
+            element.classList.add("active");
+
+            if (window.matchMedia('(max-width: 600px)').matches) {
+                cameraSidebar.classList.remove('is-open');
+                mainContainer.classList.remove('sidebar-open');
+                syncMobileSidebarState();
+            }
+
+            /*
+             * Send camera selection to
+             * the currently displayed player.
+             */
+            const viewPortFrame = document.getElementById("liveViewPortFrame");
+
+            /*
+             * Reload the player with
+             * the selected camera.
+             */
+            const url = new URL(viewPortFrame.src);
+
+            url.searchParams.set("site", selectedSiteId);
+            url.searchParams.set("camera", selectedCameraId);
+            url.searchParams.set("label", selectedCameraName);
+
+            if ( ! url.toString().includes("/live_view_more.html") )
+                viewPortFrame.src = url.toString();
+            else {
+                await viewPortFrame.contentWindow.showLiveView(selectedSiteId, selectedCameraId, selectedCameraName);
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------    
+        async function getData(endPointUrl){
+            const response = await fetch(`${endPointUrl}`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+            });
+
+            if (!response.ok) {
+                throw new Error(`getData request failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (!data) {
+                throw new Error('No data returned from getting: ' + endPointUrl);
+            }
+            
+            return data;
+        }
+
+        //-----------------------------------------------------------------------------------------
+        async function getCameras(token){
+            const endPointUrl = '/public/sitecameras' + '?taken=' + token;
+            const sitecameras = await getData(endPointUrl);
+            let htmlstr = '';
+            let cameralistDiv = document.getElementById('cameralist');
+            sitecameras.forEach(function(currentValue, index, array){
+                let site_id = currentValue.siteid;
+                let camr_id = currentValue.cameraid;
+                let label = currentValue.label;
+                let enabled = currentValue.enabled;
+                if (! enabled)
+                    label += ` (x)`;
+                //else
+                //    label += ` (${site_id})`;
+                htmlstr += `            <a href="#" class="camera-item" data-site="${site_id}" data-camera="${camr_id}" onclick="selectCamera(event, this)">${label}</a>`;
+            });
+            cameralistDiv.innerHTML = htmlstr;
+            cameralistDiv.style.display = "block";
+        }
+
+        // Make sure the user has logged in.
+        const authStr = sessionStorage.getItem("auth");
+        const authinfo = JSON.parse(authStr);
+        if (!authStr) {
+            console.log("no login auth found. go to login page.");
+            //if (!window.location.href.toUpperCase().includes("/PUBLIC/")){
+            //    window.location.href += "/public/index.html";    
+            //}
+            window.location.href = "/public/login.html" 
+        } else {
+            getCameras(authinfo.token);
+            let iframeViewPort = document.getElementById('liveViewPortFrame');
+            iframeViewPort.src = "./readme.html?token=" + authinfo.token;            
+        }
+
+        const expiresIn = authinfo.expiresIn;
+        const expiresAt = new Date(new Date().getTime() + expiresIn * 1000);
+        const intervalId = setInterval(() => {
+            const now = new Date();
+            if (now >= expiresAt) {
+                clearInterval(intervalId);
+                console.log("Token expired. Redirecting to login page.");
+                //window.location.href = "/public/login.html";
+            }
+        }, 10000);
+
+
+    </script>
+
+</body>
+
+</html>

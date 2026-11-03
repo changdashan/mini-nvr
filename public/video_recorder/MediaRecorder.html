@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Internet Recorder of Camera</title>
+
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	
+	<style>
+
+		.recording-container {
+			display: flex;
+			flex-direction: column; /* Stacks the child divs vertically */
+			justify-content: center; /* Centers horizontally */
+			align-items: center;     /* Centers vertically (requires container height) */
+			text-align: center;
+		}
+	
+		.camera-container {
+			display: flex;
+			justify-content: center; /* Centers horizontally */
+			gap: 20px;
+			align-items: center;     /* Centers vertically (requires container height) */
+			text-align: center;
+		}
+
+		.clip-playback-container {
+			display: flex;
+			flex-direction: column; /* Stacks the child divs vertically */
+			justify-content: center; /* Centers horizontally */
+			align-items: center;     /* Centers vertically (requires container height) */
+			text-align: center;
+		}
+		
+		.cliplist {
+			width: 380px;
+			height:200px;
+			border:thin solid lightgray;
+			display:inline-flexbox;	
+			overflow-y: auto;
+			text-align: left;
+			padding: 8px;	
+		}
+
+		.playback {
+			width: 650px;
+			height:485px;
+			border:thin solid lightgray;
+			display:inline-flexbox;	
+			overflow-y: auto;	
+		}
+
+		.controls {
+			padding:10px;
+		}
+
+	</style>
+
+	<script type="text/javascript" src="../requestauthtoken.js"></script> 
+  
+</head>
+
+<body>
+
+	<main>
+		<div class="recording-container">
+			<div class="controls">
+				<!--h3>Internet Recorder of Camera</h3-->				
+				<button id="btnStartRecording">Start Recording</button>
+				<select id="camera"></select>
+				<label>Record time(s)</label>
+				<select id="RecordTime" size="1" width="100px">
+					<option value='10' selected>10</option>
+					<option value='20'>20</option>
+					<option value='30'>30</option>
+					<option value='60'>60</option>				
+				</select>
+				<label id="timeElapsed"></label>
+				<button id="btnStopRecording">Stop Recording</button>
+				<button id="btnShowRecordings">Show Recordings</button>
+			</div>
+			<div class="camera-container"><video id="camvideo" autoplay playsinline></video></div>	
+		</div>
+		<br/>
+		<div id="clip_playback_div" class="clip-playback-container">
+			<div id="cliplist" class="cliplist"></div>
+			<div id="playbackDiv" class="playback">
+				<video id="videoShowRecording" autoplay playsinline controls="true">
+					<source src="" type="video/mp4;charset=UTF-8"></source>
+				</video>		
+			</div>
+		</div>		
+	</main>
+
+
+	<script src="MediaRecorder.js"></script>	
+	<label id='errormsg'></label>
+
+</body>
+
+</html>

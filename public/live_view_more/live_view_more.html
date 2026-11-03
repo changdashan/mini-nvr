@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Multiple Camera Live Views</title>
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">	
+	<link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="jquery-ui-1.14.2/jquery-ui.min.css"> 
+
+    <style>
+        .ui-dialog .ui-dialog-content {
+            overflow: hidden !important;
+            padding-left: 0px !important;
+            padding-top: 0px !important;            
+        }
+
+        .ui-dialog .ui-dialog-titlebar span.ui-dialog-title {
+            font-size: 12px !important;
+            font-weight: normal;
+        }
+        
+    </style>
+
+    <script src="jquery-ui-1.14.2/external/jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery-ui-1.14.2/jquery-ui.min.js"></script>     
+    <script src="jquery-ui-1.14.2/jquery.ui.touch-punch.min.js"></script>    
+
+    <script type="text/javascript" src="jsmpeg.min.js"></script>
+
+    <script type="text/javascript" src="h264/h264.js"></script>
+    <script type="text/javascript" src="h264/h264player.js"></script>		
+    <script type="text/javascript" src="h264/h264video.js"></script>
+        
+    <!--acc audio player package-->
+    <script type="text/javascript" src="aac/aurora.js"></script>
+    <script type="text/javascript" src="aac/faac.js"></script>
+    <script type="text/javascript" src="aac/faurora-websocket.js"></script>
+    <script type="text/javascript" src="aac/faacaudio.js"></script>
+
+    <!--script src="js/views/liveview.js"></script-->
+	<script type="text/javascript" src="../requestauthtoken.js"></script>
+	<script type="text/javascript" src="live_view_more.js"></script>    		
+	<script type="text/javascript">
+
+        let videoLiveViewMore = VideoLiveViewMore;
+		//-----------------------------------------------------------------------------------------
+		async function showLiveView(siteId, cameraId, cameraName) {
+            console.log("siteId=" + siteId + " cameraId=" + cameraId);
+            let cameraNode = {
+                siteId: siteId,
+                cameraId: cameraId,
+                cameraName: cameraName,
+                streamOptions: {
+                    fps: 25,
+                    width: 1280,
+                    height: 720,
+                    b_v: '2M',
+                    audio: false,
+                    audioformat:'mp2',
+                    //audioformat:'aac',
+                    //player:'jsmpeg-h264',               //telling backend what ffmpeg cmd is picked.
+                    //videoformat: 'h264',                //telling jsmpeg player what video format the stream is encoded
+                    player:'jsmpeg',                  //telling backend what ffmpeg cmd is picked.                
+                    videoformat: 'mpeg1video',
+                },
+            }
+
+            let playerOptions = {
+                dialog_divId:null,
+                canvas:null, 
+                videoformat:cameraNode.streamOptions.videoformat, 
+                audio:cameraNode.streamOptions.audio, 
+                audioformat:cameraNode.streamOptions.audioformat, 
+                width:cameraNode.streamOptions.width, 
+                height:cameraNode.streamOptions.height, 
+            }
+
+            cameraNode.playerOptions = playerOptions;
+
+            await videoLiveViewMore.ShowLiveViewOfCamera(cameraNode);
+		}
+
+	</script>	
+	
+</head>
+<body>
+	
+	<h3 align="center">Live View Port</h3>
+    <div id="nocameramsg"></div>
+    <div id="liveview">
+    </div>
+
+</body>
+</html>

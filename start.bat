@@ -1,0 +1,1 @@
+node mini-nvr-launcher.js Password!23 8081

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JSMpeg Stream Client</title>
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">		
+		<link rel="stylesheet" href="../style.css">
+
+		<!--jsmpeg player package-->
+		<script type="text/javascript" src="jsmpeg.min.js"></script> 
+
+		<script type="text/javascript" src="h264/h264.js"></script>
+		<script type="text/javascript" src="h264/h264player.js"></script>		
+		<script type="text/javascript" src="h264/h264video.js"></script>
+		 
+		<!--acc audio player package-->
+		<script type="text/javascript" src="aac/aurora.js"></script>
+		<script type="text/javascript" src="aac/faac.js"></script>
+		<script type="text/javascript" src="aac/faurora-websocket.js"></script>
+		<script type="text/javascript" src="aac/faacaudio.js"></script>
+
+		<script type="text/javascript" src="../requestauthtoken.js"></script>		
+		 
+		<script type="text/javascript">
+		
+			const streamOptions = {
+				fps:25,
+				width:1280,
+				height:720,
+				b_v: '2M',
+				audio: false,                   
+				audioformat:'mp2',
+                //audioformat:'aac',
+                //player:'jsmpeg-h264',
+                //videoformat: 'h264',                
+                player:'jsmpeg',               
+                videoformat: 'mpeg1video',                			
+			};
+
+			const audio = streamOptions.audio;
+			const audioFormat = streamOptions.audioformat; 
+			const videoFormat = streamOptions.videoformat;
+
+			//------------------------------------------------------------------------------------
+			async function startStreaming(action='restart') {
+				const token = await ensureAuthToken();
+
+                if (window.player && action === 'restart') {
+                    stopLiveView();
+                }
+
+				await messaging(action, streamOptions);	
+
+				var div_liveview = document.createElement("div");
+				div_liveview.setAttribute("id", "liveview");
+				document.body.appendChild(div_liveview);
+				var canvas = document.createElement("canvas");
+				canvas.setAttribute("id", "canvas");
+				canvas.width = streamOptions.width;
+				canvas.height = streamOptions.height;
+				div_liveview.appendChild(canvas);
+				var url = getWebSocketUrl(token);;
+				
+				window.player = new JSMpeg.Player(url, {div:div_liveview, canvas: canvas, videoformat:videoFormat, audio:audio, audioformat:audioFormat, width:streamOptions.width, height:streamOptions.height, disableGl:false, disableWebAssembly:false, disableWebAudio:false, disableAudio:false});
+								
+				window.msgdiv = document.createElement("div");
+				msgdiv.setAttribute("id", "msgdiv");
+				document.body.appendChild(msgdiv);
+				
+				msgdiv.innerHTML = '<!--center><p>For iPad/iPhone, please touch the screen to turn on sound</center-->';					
+			};	
+
+			//------------------------------------------------------------------------------------
+			function iosTouchUnlock(audioCtx){
+				if (audioCtx.state !== 'suspended') return;
+				const b = document.body;
+				const events = ['touchstart','touchend', 'mousedown','mouseup'];
+				events.forEach(e => b.addEventListener(e, unlock, false));
+				function unlock() { audioCtx.resume().then(clean); }
+				function clean() { events.forEach(e => b.removeEventListener(e, unlock)); }
+			};
+			
+			//------------------------------------------------------------------------------------			
+			function webAudioTouchUnlock (context){
+				return new Promise(function (resolve, reject){
+					if (context.state === 'suspended' && 'ontouchstart' in window){
+						var unlock = function(){
+							context.resume().then(function(){
+								document.body.removeEventListener('touchstart', unlock);
+								document.body.removeEventListener('touchend', unlock);
+								resolve(true);
+							}, 
+							function (reason){
+								reject(reason);
+							});
+						};
+						document.body.addEventListener('touchstart', unlock, false);
+						document.body.addEventListener('touchend', unlock, false);
+					}
+					else{
+						resolve(false);
+					}
+				});
+			}			
+			
+			function allowSpeaker() {	
+				alert("sound allowed");
+			};
+			
+			//------------------------------------------------------------------------------------
+			function onMicrophoneCaptured(stream) {
+				var context = new AudioContext();
+				var source = context.createMediaStreamSource(stream);
+				var processor = context.createScriptProcessor(1024, 1, 1);
+				source.connect(processor);
+				processor.connect(context.destination);
+				processor.onaudioprocess = function(e) {
+					// Do something with the data, i.e Convert this to WAV
+					//console.log(e.inputBuffer);
+				};
+			};
+
+            //-----------------------------------------------------------------------------------------            
+			function onMicrophoneError(error){
+				alert(error);
+			}
+			
+            //-----------------------------------------------------------------------------------------
+            function stopLiveView(){
+                try{
+                    if (window.player)
+                        window.player.destroy();
+                } catch (err) {
+                    console.log(err);
+                }
+                var canvas = document.getElementById("canvas"); 
+                if (canvas) {
+                    canvas.remove();
+                }           
+            }          
+
+            if (SITE_ID && CAMERA_ID) {
+                startStreaming('start');
+            }
+  
+		</script>		
+	 
+	</head>
+	
+	<body>
+		
+		<!--h3 align="center">JSMpeg Player for H264|MPEG1VIDEO and/or AAC|MP2 Live Streaming</h3-->
+		<div class="buttongroup">
+			<button type="button" onclick="startStreaming()">Restart Streaming</button>
+			<button type="button" onclick="stopStreaming()">Stop Streaming</button>
+		</div>
+
+	</body>
+</html>

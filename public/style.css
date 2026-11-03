@@ -1,0 +1,34 @@
+
+
+div {
+	border:0px solid darkblue;
+}
+
+canvas {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttongroup {
+	display:flex;
+	justify-content:center;
+	justify-items:center;
+}
+
+button {
+	margin-top: 5px;
+	margin-left: 10px;	
+	padding: 10px;
+	border: 1px solid gray;
+	border-radius: 4px;
+	/*background: #2563eb;
+	color: white;8?
+	font-size: 14px;*/
+	cursor: pointer;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}

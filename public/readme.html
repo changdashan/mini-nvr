@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mini NVR Introduction</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+
+            width: 100%;
+            min-height: 100%;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            color: #333;
+            background: #f5f7fa;
+        }
+
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+  
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            height: 64px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding-left: 30px;
+
+            background: #202020;
+            color: white;
+
+            /*border-bottom: 1px solid #007bff;*/
+            border-bottom: 1px solid #374e5c;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+
+            color: #eee;
+        }
+
+
+        /* =========================================================
+           PAGE LAYOUT
+           ========================================================= */
+
+        .page {
+            display: flex;
+
+            /*
+             * Main content first, sidebar second.
+             */
+            flex-direction: row;
+
+            width: 100%;
+            min-height: calc(100vh - 64px);
+        }
+
+
+        /* =========================================================
+           MAIN CONTENT
+           ========================================================= */
+
+        .content {
+            flex: 1;
+
+            width: calc(100% - 250px);
+            max-width: 1100px;
+
+            padding: 45px 55px 80px;
+
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 55px;
+
+            scroll-margin-top: 90px;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 15px;
+
+            color: #222;
+
+            font-size: 36px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+
+            padding-bottom: 10px;
+
+            color: #222;
+
+            font-size: 25px;
+
+            border-bottom: 1px solid #ddd;
+        }
+
+        h3 {
+            margin-top: 30px;
+
+            color: #333;
+
+            font-size: 19px;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        li {
+            margin-bottom: 8px;
+
+            line-height: 1.6;
+        }
+
+        .intro {
+            color: #666;
+
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+
+        /* =========================================================
+           RIGHT SIDEBAR
+           ========================================================= */
+
+        .sidebar {
+            position: sticky;
+            top: 64px;
+
+            order: 2;
+
+            width: 250px;
+            min-width: 250px;
+
+            height: calc(100vh - 64px);
+
+            padding: 25px 0;
+
+            background: #252525;
+
+            border-left: 1px solid #444;
+
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            padding: 0 22px 12px;
+
+            color: #999;
+
+            font-size: 11px;
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+        .sidebar a {
+            display: block;
+
+            padding: 10px 22px;
+
+            color: #ccc;
+
+            font-size: 14px;
+
+            text-decoration: none;
+
+            border-right: 3px solid transparent;
+
+            transition:
+                background 0.2s,
+                color 0.2s;
+        }
+
+        .sidebar a:hover {
+            color: white;
+
+            background: #333;
+        }
+
+        .sidebar a.active {
+            color: white;
+
+            background: #007bff;
+
+            border-right-color: #4da3ff;
+        }
+
+
+        /* =========================================================
+           CARDS
+           ========================================================= */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+
+            gap: 18px;
+
+            margin-top: 25px;
+        }
+
+        .card {
+            padding: 22px;
+
+            background: white;
+
+            border: 1px solid #e0e4e8;
+
+            border-radius: 8px;
+
+            box-shadow:
+                0 2px 5px rgba(0, 0, 0, 0.04);
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+
+            color: #007bff;
+
+            font-size: 18px;
+        }
+
+        .card p {
+            margin-bottom: 0;
+
+            color: #666;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           FORMAT BADGES
+           ========================================================= */
+
+        .badge {
+            display: inline-block;
+
+            padding: 4px 9px;
+
+            margin-right: 5px;
+
+            color: white;
+
+            font-size: 11px;
+            font-weight: bold;
+
+            border-radius: 4px;
+        }
+
+        .badge-h264 {
+            background: #007bff;
+        }
+
+        .badge-vp8 {
+            background: #28a745;
+        }
+
+        .badge-jsmpeg {
+            background: #8e44ad;
+        }
+
+        .badge-ws {
+            background: #e67e22;
+        }
+
+
+        /* =========================================================
+           CODE
+           ========================================================= */
+
+        pre {
+            margin: 18px 0;
+
+            padding: 18px;
+
+            overflow-x: auto;
+
+            color: #e8e8e8;
+
+            background: #1e1e1e;
+
+            border-radius: 6px;
+
+            font-family:
+                "SFMono-Regular",
+                Consolas,
+                "Liberation Mono",
+                monospace;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        code {
+            font-family:
+                "SFMono-Regular",
+                Consolas,
+                "Liberation Mono",
+                monospace;
+
+            font-size: 0.92em;
+        }
+
+        p code,
+        li code {
+            padding: 2px 5px;
+
+            color: #c7254e;
+
+            background: #f5f5f5;
+
+            border-radius: 3px;
+        }
+
+
+        /* =========================================================
+           ARCHITECTURE DIAGRAM
+           ========================================================= */
+
+        .architecture {
+            margin: 25px 0;
+
+            padding: 30px;
+
+            background: #1e1e1e;
+
+            border-radius: 8px;
+
+            overflow-x: auto;
+        }
+
+        .architecture-row {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 12px;
+
+            min-width: 750px;
+
+            margin: 12px 0;
+        }
+
+        .architecture-box {
+            min-width: 150px;
+
+            padding: 15px 12px;
+
+            color: white;
+
+            text-align: center;
+
+            background: #333;
+
+            border: 1px solid #555;
+
+            border-radius: 6px;
+        }
+
+        .architecture-box.auth {
+            border-color: #007bff;
+        }
+
+        .architecture-box.stream {
+            border-color: #28a745;
+        }
+
+        .architecture-box.rabbit {
+            border-color: #e67e22;
+        }
+
+        .architecture-box.client {
+            border-color: #8e44ad;
+        }
+
+        .arrow {
+            color: #aaa;
+
+            font-size: 24px;
+        }
+
+
+        /* =========================================================
+           INFO BOX
+           ========================================================= */
+
+        .info {
+            margin: 20px 0;
+
+            padding: 18px 20px;
+
+            background: #eaf4ff;
+
+            border-left: 4px solid #007bff;
+
+            border-radius: 4px;
+        }
+
+        .warning {
+            background: #fff8e6;
+
+            border-left-color: #f0ad4e;
+        }
+
+
+        /* =========================================================
+           TABLE
+           ========================================================= */
+
+        table {
+            width: 100%;
+
+            margin: 20px 0;
+
+            border-collapse: collapse;
+
+            background: white;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+
+            text-align: left;
+
+            border: 1px solid #ddd;
+
+            font-size: 14px;
+        }
+
+        th {
+            color: white;
+
+            background: #333;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+
+        /* =========================================================
+           DEMO LINK
+           ========================================================= */
+
+        .demo-link {
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 11px 18px;
+
+            color: white;
+
+            background: #007bff;
+
+            border-radius: 5px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .demo-link:hover {
+            background: #0069d9;
+        }
+
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        footer {
+            margin-top: 70px;
+
+            padding-top: 25px;
+
+            color: #888;
+
+            font-size: 13px;
+
+            border-top: 1px solid #ddd;
+        }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .content {
+                padding: 35px 30px 60px;
+            }
+
+            .sidebar {
+                width: 210px;
+                min-width: 210px;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            /*
+             * On smaller screens the sidebar moves below
+             * the documentation content.
+             */
+            .page {
+                flex-direction: column;
+            }
+
+            .content {
+                width: 100%;
+                max-width: none;
+
+                padding: 30px 20px 50px;
+            }
+
+            .sidebar {
+                order: 2;
+
+                position: static;
+
+                width: 100%;
+                min-width: 100%;
+
+                height: auto;
+
+                border-top: 1px solid #444;
+                border-left: none;
+            }
+
+            .sidebar a {
+                border-right: none;
+                border-left: 3px solid transparent;
+            }
+
+            .sidebar a.active {
+                border-right: none;
+                border-left-color: #4da3ff;
+            }
+
+            .header {
+                padding-left: 20px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =============================================================
+     HEADER
+     ============================================================= -->
+
+<header class="header">
+    <div class="header-title">
+        A simple, lightweight home video surveillance
+    </div>
+</header>
+
+<!-- =============================================================
+     PAGE
+     ============================================================= -->
+
+<div class="page">
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+         ========================================================= -->
+
+    <main class="content">
+
+
+        <!-- =====================================================
+             OVERVIEW
+             ===================================================== -->
+
+        <section id="overview">
+            <h2>Mini-NVR</h2>
+
+            <p>
+                <strong>Mini-NVR</strong> is a simple, lightweight video surveillance
+                application designed to be easy to set up and use while providing
+                essential home security features.
+            </p>
+
+            <p>
+                Advanced NVR systems can be complex to configure and often require
+                expensive or powerful hardware. <strong>MINI-NVR requires neither.</strong>
+                You can run it on an ordinary Windows laptop or desktop computer and
+                use its built-in webcam, a USB camera, or IP cameras that support RTSP
+                as your surveillance cameras.
+            </p>
+
+            <p>
+                With port forwarding configured on your home Wi-Fi router, you can
+                make Mini-NVR accessible over the internet, allowing you to monitor
+                your home anytime, from anywhere. Simply use a web browser on your
+                smartphone, tablet, or computer to access and manage its features
+                remotely.
+            </p>
+
+            <p>
+                Mini-NVR provides the essential surveillance and monitoring
+                capabilities you may need to help keep an eye on your home, without
+                the additional cost of a dedicated NVR system or subscription fees.
+            </p>
+
+            <p>
+                <strong>Most importantly, Mini-NVR puts you in control of your data
+                and privacy.</strong> Your recordings, snapshots, and other
+                surveillance data are stored on your own computer rather than in
+                a third-party cloud service, giving you greater control over who
+                can access them.
+            </p>
+
+            <p>
+                Mini-NVR currently lacks the region of interest (ROI) setting, zooming on car plate and humance face,
+                the features most advanced NVR may possess. It will add the scheduling feature in the near future.
+            </p>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             FEATURES
+             ===================================================== -->
+
+        <section id="features">
+
+            <h2>Features</h2>
+
+            <div class="cards">
+
+                <div class="card">
+                    <h3>Continous Recording</h3>
+                    <p>
+                        The system captures video stream live from each registered camera and store it locally in the ./srvr_recordings folder on the server computer.
+                        You can set how many days to keep the recordings.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Live View</h3>
+                    <p>
+                        You can view connected cameras in real time with internet browsers and more views simultanously.
+                        You can resize and move the live view dialogs around the user interface with mouse or your finger.  
+                    </p>
+                </div>                 
+
+                <div class="card">
+                    <h3>Motion and Object Detection</h3>
+                    <p>
+                        It uses AI to detect moving objects and identify person or car loitering around.  
+                    </p>
+                </div>              
+
+                <div class="card">
+                    <h3>Storing Alert Footages</h3>
+                    <p>
+                        It stores alert footage clips in the .\public\footage_reviewer\motion_footages\[cameraId]\[yyyy-mm-dd] folder.
+                        You can set the days to keep those alert footage clip files.
+                    </p>
+                </div>
+               
+                <div class="card">
+                    <h3>Footage Review</h3>
+                    <p>
+                        The user can view the footage clips on the Event Footage Review tab. 
+                        Its search and slide show features make review convenient and faster.
+                        Of course, you can easily review the alert clips with Windows File Explorer.
+                    </p>
+                </div> 
+
+                <div class="card">
+                    <h3>Playback Recordings</h3>
+                    <p>
+                        If you'd like to view the context of an event in details, 
+                        the playback of recordings gives you that capability.
+                        Its search, chronical list of recordings, and slide show make it easy to locate the concerned recordings.
+                        Of course, you can use Windows File Explorer and VLC Player to play it back too. 
+                    </p>
+                </div>                 
+
+                <div class="card">
+                    <h3>Email notification</h3>
+                    <p>
+                        It can be set to send out email with the footage clip attached to the specified email recipients when an alert occurs.
+                    </p>
+                </div>               
+
+                <div class="card">
+                    <h3>Web Recorder</h3>
+                    <p>
+                        This feature has nothing to do with NVR. Hower, you can use it to record anything with your smart phone. 
+                        It is instantanously saved on your Mini NVR server.
+                    </p>
+                </div>  
+
+                <div class="card">
+                    <h3>Security and Safeguard</h3>
+                    <p>
+                        Mini-NVR uses login credentials and JWT-based authentication to help protect access to the systems and your video data.
+                        Sensitive data is never stored on the client side in browser.
+                        When accessing it remotely, the user have to use your home router's public IP address 
+                        and the custom port configured for port forwarding that is known only to you, which imposes an additional layer of security.
+                    </p>
+                </div>                
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             COMPONENTS
+             ===================================================== -->
+
+        <section id="components">
+
+            <h2>Main Components</h2>
+
+            <h3>Mini NVR Server</h3>
+
+            <p>
+            Mini-NVR is essentially an HTTP(S) and WebSocket server designed to receive video streams from registered cameras, 
+            record incoming streams, and broadcast video to connected WebSocket clients upon request from the live-view page. 
+            It also detects and identifies moving objects, generates and stores alert footage clips, and provides features such as live viewing, 
+            footage review, and playback of recorded videos.
+   
+            </p>
+
+            <h3>Stream Pump</h3>
+
+            <p>
+            The Stream Pump is a component application designed to run on the same network as your video cameras. 
+            Its responsibility is to respond to live-view requests by streaming video from the requested camera to the Mini-NVR server.
+            </p>        
+
+        </section>
+
+        <!-- =====================================================
+             RUNNING
+             ===================================================== -->
+
+        <section id="installations">
+
+            <h2>Installations</h2>
+
+            <h3>1. Download and Install Node JS</h3>
+
+            <p>
+                Mini-NVR is an NodeJS application and needs NodeJS installed on your computer to run it. 
+                Go to <a href="https://nodejs.org/en/download" target="_blank" rel="noopener noreferrer"> official nodejs site</a> to download and install it.
+                Make sure node.exe can be run on cmd console at any directory. If it is not, please add its folder path to the list of the system environment path.  
+            </p>
+
+
+            <h3>2. Download and Unzip Mini-NVR</h3>
+
+            <p>
+                Go to the Mini NVR github to download it, and unzip it to a folder, e.g., c:\mini-nvr. It contains all necessary components to run it.
+            </p>
+
+        </section>
+
+        <!-- =====================================================
+             QUICK START
+             ===================================================== -->
+
+        <section id="quickstart">
+
+            <h2>Start To Run Mini-NVR</h2>
+
+            <h3>1. Preparing (Run once)</h3>
+
+            <p>
+                Open a cmd console and change to the mini-nvr/utility folder and issue:
+                <pre><code>c:\mini-nvr\utility> preparing.bat</code></pre>
+
+                You only need to run this tool once. 
+                There is no need to run it again each time you start Mini-NVR. 
+                The tool performs two tasks:
+                    <ul>
+                        <li>Generates and installs a self-signed TLS root CA certificate (rootCA.pem), 
+                            along with the required private key and certificate files, in the .sslcert folder.
+                        </li>
+                        <li>
+                            Detects the video device names of cameras connected to the current computer, 
+                            including both built-in and USB-connected cameras. If any cameras are detected, 
+                            the tool adds a new entry with cameraId 'my_web_camera' and label 'My Web Camera' 
+                            for each camera to the SITE_CAMERAS list in server_setting.js. 
+                            The cameraId and label would be suffixed with an incremental index if additional such a camera is found and added.
+                        </li>
+                    </ul>  
+            </p>            
+
+            <h3>2. Start Mini-NVR Server</h3>
+
+            <p>
+                Open a cmd console and change to the mini-nvr folder and issue:
+                <pre><code>c:\mini-nvr> start-mini-nvr.bat</code></pre>
+
+                This automatically launches the streampump service and Chrome as well to open the login.html page.<br/>
+            </p>
+            <p>
+                On the login page, enter 'admin' in the user field and 'admin!23' in the password field, then click the Login button.
+                This should bring you the main page.
+            </p>
+            
+            <p>
+                Suggestion: change the admin user's password to something else as soon as possible. Please refer to the Server Settings.
+            </p>
+
+            <h3>3. Stop Mini-NVR Server</h3>
+
+            <p>
+                On the Mini-NVR output console, press ctrl-c to stop it (may need to press it several times)
+            </p> 
+
+            <p>
+                Note: please stop and restart the Mini-NVR server whenever server_settings.js is modified
+            </p>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             SERVER SETTINGS
+             ===================================================== -->
+
+        <section id="settings">
+
+            <h2>Server Settings: server_settings.js</h2>
+
+            <h3>Change the admin user's password</h3>
+            <p>
+                Use notepad or notepad++ to open server_settings.js file. Locate to the following code segment and 
+                change the password attribute 'admin' to something else, say, 'password!23'.
+                <pre><code>const USERACCOUNTS = {
+    admin: {
+        password: '<strong style="color:yellow">admin!23</strong>',
+        roles: ['administrators'],
+    },
+};></code></pre>
+
+            </p>
+
+            <h3>Add a new user</h3>
+            <p>
+                You can add a new user by copying and pasting the admin entry and change the admin and password for the new user:
+                <pre><code>const USERACCOUNTS = {
+    admin: {
+        password: 'admin!23',
+        roles: ['administrators'],
+    },
+    <strong style="color:yellow">user1: {
+        password: 'user1pwd!23',
+        roles: ['viewers'],
+    },</strong>       
+};></code></pre>                
+            
+            </p>
+
+
+            <h3>Manually add a camera</h3>
+            <p>
+            Built-in webcams and USB-connected cameras on the Mini-NVR server are registered automatically. 
+            However, IP cameras and built-in cameras of other computers must be registered manually before they can join the system.
+            </p>
+
+            <p>
+            IP cameras with RTSP and night vision features would be much better for surveillance day and night. Therefore here I'd like
+            to focus on adding an IP camera to the system.
+            </p>
+            <p>
+            You can register a new IP camera by locating and modifying an existing entry in, 
+            or adding new entry to, the SITE_CAMERAS array in the server_settings.js file.
+            </p>
+            
+<pre><code>{  
+    "siteid":"my_home",
+    "cameraid":"<strong style="color:yellow">front_door_cam</strong>", 
+    "label":"<strong style="color:yellow">Front Door Camera</strong>",
+    "videodevice":"", 
+    "audiodevice":"",
+    "streamsource":"<strong style="color:red">rtsp</strong>", 
+    "cameraip":"", 
+    "rtsp":"<strong style="color:red">rtsp://[user]:[password]@[camera ip]:554/stream0</strong>", 
+    "rtspport":"", 
+    "rtspuser":"", 
+    "rtsppwd":"", 
+    "fps":25,
+    "width":1280,
+    "height":720,
+    "b_v": "2M",
+    "audio": false,
+    "audioformat":"mp2",
+    "nostats":"-nostats",        
+    "player":"jsmpeg", 
+    "enabled":true,                               
+},
+</code></pre>
+            <p>
+            There are two key attributes highlighted red that need attention: streamsource is set 'rtsp' and rtsp is set the full rtsp url of the camera.
+            </p>
+            <p>
+            For an IP camera supporting ONVIF/RTSP, once hooked up to your local network, 
+            you need to determine its IP address assigned to it. 
+            One way to find it is to download and install an app called <a href="https://sourceforge.net/projects/onvifdm/" target="_blank" rel="noopener noreferret">ODM (ONVIF Device Manager)</a>
+            After you launch the app, it will automatically show the IP address of the newly connected IP camera. 
+            To determine the rtsp url of the camera, usually there are several ways:
+            <ul>
+                <li>Try the ONVIF RTSP format: rtsp://[ip address]:554/stream0.</li>
+                <li>Check the camera user manual for it</li>
+                <li>Check the camera configuration for it (e.g., http://[camera ip])</li>
+            </ul>
+            
+            You can download VLC Player to verify the valility of the rtsp url.
+
+            </p>
+
+        </section>
+
+        <!-- =====================================================
+             RUNNING
+             ===================================================== -->
+
+        <section id="streampump_service">
+
+            <h2>
+                Running StreamPump Service on Computer Other Than Mini-NVR
+            </h2>
+
+            <p>
+                streampump service needs to know the https URL of your Mini-NVR server in order to communicate with it.
+                If you want to join the camera of your another computer to your Mini-NVR surveillance, you may need to 
+                run a streampump service on that computer. Then you need to tell the streampump the Mini-NVR server's IP address
+                and the site ID you assigned that camera to. In this case, use notepad to open the start_streampump.bat file 
+                and update the Mini-NVR server ID and the site_id parameters.
+                <pre><code>REM node ./streampump.min.js [mini-nvr server and port] [user] [pwd] [siteid]
+node ./streampump.min.js "https://192.168.1.167:8081" "[mini-nvr user]" "[the user password]" "[site-2]"</code></pre>                
+            </p>          
+
+        </section>
+
+        <!-- =====================================================
+             PORTFORWARDING and INTERNET ACCESS
+             ===================================================== -->
+
+        <section id="internetaccess">
+
+            <h2>
+                Turn your Mini-NVR Internet Accessible
+            </h2>
+            <p>
+                By default, your Mini-NVR service is not accessible from the internet. 
+                To enable remote access, you need to configure port forwarding on your Wi-Fi router.
+            </p>
+
+            <p>
+                The following screenshot shows an example of port-forwarding settings on a Verizon Wi-Fi router.
+                To access your router's configuration page, open a web browser on a computer 
+                connected to your home network and enter http://192.168.1.1 in the address bar. 
+                Then, log in using your router's administrator password. 
+                This password is often printed on a label on the back or bottom of the router.
+
+            </p>
+            <p>
+                Pay particular attention to the Fwd to Addr field. 
+                It should contain the local IP address of the computer running your Mini-NVR server.
+
+            </p>
+            <p>
+                Next, you need to find your home's public IP address, 
+                which is the internet-facing IP address assigned to your router. 
+                You can find it by visiting <a href="https://whatismyipaddress.com/" target="_blank" rel="noopener noreferret">What Is My IP Address</a>.
+
+            </p>
+            <p>
+
+                Once port forwarding is configured, you should be able to access Mini-NVR remotely 
+                by entering your home's public IP address and the appropriate port number in the web browser 
+                on your iPhone, iPad, or Android device. Use the following format:                
+            </p>
+
+            <p>
+                https://[your-public-IP-address]:[port-number]             
+            </p>
+            <p>
+                Bookmark the page on your mobile device so you can easily access Mini-NVR in the future.
+            </p>
+
+            <img src="./setup_portforwarding_on_wifi_router.png" width="1000">                    
+
+        </section>
+
+
+        
+        <section id="licenseanddisclaimer">
+            <h3>License and Disclaimer</h3>
+
+            <p>
+                Mini-NVR is software free of charge and provided “as is,” without warranties of any kind. 
+                Motion detection, AI-based object identification, video recording, and event notifications may be inaccurate, 
+                incomplete, or fail. No detection or recording is guaranteed. 
+                Do not rely on Mini-NVR as your sole means of security or safety monitoring. 
+                <strong>Use the software at your own risk.</strong> 
+                See <a href="./license.html">the LICENSE file for the applicable warranty disclaimer and limitation of liability.</a>
+            </p>           
+
+        </section> 
+
+        <!-- =====================================================
+             FOOTER
+             ===================================================== -->
+
+        <footer>
+
+            <strong>Mini-NVR</strong>
+
+            surveills your home with Webcam, USB Cameras, or IP Cameras supporting RTSP featuring live and footage view, AI detection of objects, and event notification.
+            for support, email to dashanchang@hotmail.com
+            <p>&copy; 2026 Mini NVR, LLC. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+
+    <!-- =========================================================
+         RIGHT DOCUMENTATION SIDEBAR
+         ========================================================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-title">
+            Documentation
+        </div>
+
+        <a href="#overview" class="active">
+            Overview
+        </a>
+
+        <a href="#features">
+            Features
+        </a>
+
+        <a href="#components">
+            Main Components
+        </a>
+
+        <a href="#installations">
+            Installations
+        </a>
+
+        <a href="#quickstart">
+            Start Mini-NVR
+        </a>
+
+        <a href="#settings">
+            Server Settings
+        </a>
+
+        <a href="#streampump_service">
+            Stream Service
+        </a>
+
+        <a href="#internetaccess">
+            Internet Access
+        </a>        
+
+        <a href="#licenseanddisclaimer">
+            License and Disclaimer
+        </a> 
+
+    </aside>
+
+</div>
+
+
+<!-- =============================================================
+     ACTIVE SIDEBAR SECTION
+     ============================================================= -->
+
+<script>
+
+    const sidebarLinks = document.querySelectorAll(".sidebar a");
+    const sections = document.querySelectorAll("section");
+
+    function updateActiveSection() {
+        const scrollPosition = window.scrollY + 120;
+
+        let current = "";
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+
+            if (scrollPosition >= sectionTop) {
+                current = section.id;
+            }
+        });
+
+        // Make sure the last section becomes active when
+        // the user reaches the bottom of the page.
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 5) {
+            current = sections[sections.length - 1].id;
+        }
+
+        sidebarLinks.forEach(link => {
+            link.classList.toggle(
+                "active",
+                link.getAttribute("href") === "#" + current
+            );
+        });
+    }
+
+    window.addEventListener("scroll", updateActiveSection);
+    window.addEventListener("load", updateActiveSection);
+
+</script>
+
+</body>
+</html>
