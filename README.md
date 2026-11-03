@@ -5,18 +5,18 @@
 
 ## Table of Contents
 
-- Overview
-- Features
-- Main Components
-- Installations
-- Start Mini-NVR
-- Server Settings
+- [Overview](#overview)
+- [Features](#features)
+- [Main Components](#main-components)
+- [Installations](#installations)
+- [Start Mini-NVR](#start-mininvr)
+- [Server Settings](#server-settings)
   - Change the Admin User's Password
   - Add a New User
   - Manually Add a Camera
-- Running StreamPump on Another Computer
-- Internet Access
-- License and Disclaimer
+- [Running StreamPump on Another Computer]
+- [Internet Access](#make-mini-nvr-accessible-over-the-internet)
+- [License and Disclaimer](#License-and-Disclaimer)
 
 ---
 
