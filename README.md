@@ -14,7 +14,7 @@
   - Change the Admin User's Password
   - Add a New User
   - Manually Add a Camera
-- [Running StreamPump on Another Computer]
+- [Running StreamPump on Another Computer](#Running-StreamPump-Service-on-Another-Computer)
 - [Internet Access](#make-mini-nvr-accessible-over-the-internet)
 - [License and Disclaimer](#License-and-Disclaimer)
 
