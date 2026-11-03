@@ -39,7 +39,7 @@ function addWebcamToMyHomeSite_in_server_settings(siteId, cameraId, cameraLabel,
 
     const lines = data.split(/\r?\n/);
     const updatedLines = lines.map(line => {
-        if (line === 'const SITE_CAMERAS = [') {
+    if (line.includes('const SITE_CAMERAS = [')) {
             return `${line}
     {  
         "siteid":"${siteId}", 

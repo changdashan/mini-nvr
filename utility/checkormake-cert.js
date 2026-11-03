@@ -60,16 +60,16 @@ async function main(){
         generateKeyAndCert(localIp);
     }
 
-    const updateStreamIpPort = require('./update-stream-server-ip');
+    const updateFile = require('./update-file.js');
     let searchForLine = 'const SSL_KEY_FILE = ';
-    let newLine = `./sslcert/${localIp}-key.pem`;
+    let newLine = searchForLine + `'./sslcert/${localIp}-key.pem';`;
 
     filepath = '../server_settings.js';
-    updateStreamIpPort(filepath, searchForLine, newLine); 
+    updateFile(filepath, searchForLine, newLine); 
 
     searchForLine = 'const SSL_CERT_FILE = ';
-    newLine = `./sslcert/${localIp}.pem`; 
-    updateStreamIpPort(filepath, searchForLine, newLine);         
+    newLine = searchForLine + `'./sslcert/${localIp}.pem';`; 
+    updateFile(filepath, searchForLine, newLine);         
 }
 
 main();
