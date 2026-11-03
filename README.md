@@ -5,18 +5,18 @@
 
 ## Table of Contents
 
-- Overview
-- Features
-- Main Components
-- Installations
-- Start Mini-NVR
-- Server Settings
+- [Overview](#overview)
+- [Features](#features)
+- [Main Components](#main-components)
+- [Installations](#installations)
+- [Start Mini-NVR](#start-mini-nvr)
+- [Server Settings](#server-settings)
   - Change the Admin User's Password
   - Add a New User
   - Manually Add a Camera
-- Running StreamPump on Another Computer
-- Internet Access
-- License and Disclaimer
+- [Running StreamPump on Another Computer](#Running-StreamPump-Service-on-Another-Computer)
+- [Internet Access](#make-mini-nvr-accessible-over-the-internet)
+- [License and Disclaimer](#License-and-Disclaimer)
 
 ---
 
@@ -185,7 +185,7 @@ Open a command prompt, change to the Mini-NVR installation folder, and execute:
 bat
 
 ```bat
-C:\mini-nvr> start-mini-nvr.bat
+C:\mini-nvr> start.bat
 ```
 
 This automatically launches:
@@ -369,7 +369,7 @@ To enable remote access, you need to configure port forwarding on your home Wi-F
 
 The following screenshot shows an example of port-forwarding settings on a Verizon Wi-Fi router.
 
-\!Example of port-forwarding settings on a Wi-Fi router
+![Portforwarding Example](./public/setup_portforwarding_on_wifi_router.png)
 
 To access your router's configuration page:
 
