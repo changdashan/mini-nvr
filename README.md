@@ -9,7 +9,7 @@
 - [Features](#features)
 - [Main Components](#main-components)
 - [Installations](#installations)
-- [Start Mini-NVR](#start-mininvr)
+- [Start Mini-NVR](#start-mini-nvr)
 - [Server Settings](#server-settings)
   - Change the Admin User's Password
   - Add a New User
