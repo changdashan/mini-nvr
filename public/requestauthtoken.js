@@ -1,1 +1,223 @@
-const a0_0x46d61c=a0_0x3a14;function a0_0x3a14(_0x36f0c8,_0x4c69a6){_0x36f0c8=_0x36f0c8-0xfa;const _0x580eeb=a0_0x580e();let _0x3a1449=_0x580eeb[_0x36f0c8];return _0x3a1449;}(function(_0x5a4281,_0x442d02){const _0x297418=a0_0x3a14,_0x253df9=_0x5a4281();while(!![]){try{const _0x1354f0=-parseInt(_0x297418(0x130))/0x1*(parseInt(_0x297418(0x143))/0x2)+parseInt(_0x297418(0x133))/0x3+-parseInt(_0x297418(0x134))/0x4*(parseInt(_0x297418(0xfb))/0x5)+parseInt(_0x297418(0x108))/0x6*(-parseInt(_0x297418(0x124))/0x7)+-parseInt(_0x297418(0x11f))/0x8*(parseInt(_0x297418(0x12d))/0x9)+-parseInt(_0x297418(0x111))/0xa+parseInt(_0x297418(0x144))/0xb*(parseInt(_0x297418(0x118))/0xc);if(_0x1354f0===_0x442d02)break;else _0x253df9['push'](_0x253df9['shift']());}catch(_0x3d04f4){_0x253df9['push'](_0x253df9['shift']());}}}(a0_0x580e,0x3926b));function a0_0x580e(){const _0x57cfb7=['text','qCvnI','token','stringify','site','get','142182xKhQNG','origin','No\x20token\x20returned\x20from\x20auth\x20service','1QGsyVf','lQTnt','camera','501732RtikzR','63452kPrtQC','wss','has','XmQba','stop','location','application/json','/messaging/','SNLtW','osYJg','/token','json','AHzfW','ZhDKH','auth','696248WbDKMu','17485116uyhGEj','startsWith','uploading','90kupwfA','No\x20data\x20returned\x20from\x20getting:\x20','GABCp','path','jNlGV','GET','ELcyr','iMbKZ','href','AIVVT','https','log','vVzgT','1628634OSgEqy','restart','replace','zMrix','PrSbt','UWHMt','Response\x20from\x20sending\x20the\x20message:','qELUl','UWxPf','4280360OqMCqr','status','vsOvn','my_laptop_frontcam','Error\x20sending\x20request:','SPxnD','aiJPb','12HXDwYc','getData\x20request\x20failed:\x20','message','start','ffmpegVisualOptions','./login.html','fIJbC','96OPSzXv','vPyel','xjeng','ZZAes','AubzR','7DDVAFj','/public/login.html','parse'];a0_0x580e=function(){return _0x57cfb7;};return a0_0x580e();}const STREAM_SERVICE_BASE_URL=window[a0_0x46d61c(0x139)][a0_0x46d61c(0x12e)],AUTH_SERVICE_URL=STREAM_SERVICE_BASE_URL;var WEBSOCKET_BASE_URL;STREAM_SERVICE_BASE_URL[a0_0x46d61c(0x145)]('https')?WEBSOCKET_BASE_URL=STREAM_SERVICE_BASE_URL[a0_0x46d61c(0x10a)](a0_0x46d61c(0x105),a0_0x46d61c(0x135)):WEBSOCKET_BASE_URL=STREAM_SERVICE_BASE_URL[a0_0x46d61c(0x10a)]('http','ws');const auth=sessionStorage['getItem']('auth');if(!auth)window[a0_0x46d61c(0x139)][a0_0x46d61c(0x103)]=a0_0x46d61c(0x11d);const authPayload=auth?JSON[a0_0x46d61c(0x126)](auth):null,authUser=authPayload['username'];function getQueryParam(_0x3d1306,_0x4dbf81){const _0x4bf15a=a0_0x46d61c,_0x4638c8=new URLSearchParams(window[_0x4bf15a(0x139)]['search']);return _0x4638c8[_0x4bf15a(0x136)](_0x3d1306)?_0x4638c8[_0x4bf15a(0x12c)](_0x3d1306):_0x4dbf81;}let authToken=null;async function requestAuthToken(){const _0x42d8a6=a0_0x46d61c,_0x589040={'jNlGV':function(_0x44754e,_0x6bde41,_0x175f96){return _0x44754e(_0x6bde41,_0x175f96);},'PrSbt':'POST','SNLtW':_0x42d8a6(0x13a),'fIJbC':_0x42d8a6(0x12f)},_0x5ac002=authPayload,_0x18200f=await _0x589040[_0x42d8a6(0xff)](fetch,AUTH_SERVICE_URL+_0x42d8a6(0x13e),{'method':_0x589040[_0x42d8a6(0x10c)],'headers':{'Content-Type':_0x589040[_0x42d8a6(0x13c)]},'body':JSON[_0x42d8a6(0x12a)](_0x5ac002)});if(!_0x18200f['ok'])throw new Error('Token\x20request\x20failed:\x20'+_0x18200f[_0x42d8a6(0x112)]);const _0x4f7569=await _0x18200f[_0x42d8a6(0x13f)]();if(!_0x4f7569||!_0x4f7569[_0x42d8a6(0x129)])throw new Error(_0x589040[_0x42d8a6(0x11e)]);return authToken=_0x4f7569[_0x42d8a6(0x129)],authToken;}const SITE_ID=getQueryParam(a0_0x46d61c(0x12b),'my_laptop'),CAMERA_ID=getQueryParam(a0_0x46d61c(0x132),a0_0x46d61c(0x114));function getMessagingUrl(_0x8baec9){const _0x5056e5=a0_0x46d61c;return STREAM_SERVICE_BASE_URL+'/'+_0x8baec9+_0x5056e5(0x13b)+SITE_ID;}function getWebSocketUrl(_0x74b973){return WEBSOCKET_BASE_URL+'/'+_0x74b973+'/'+CAMERA_ID;}function getMessagingUrl_2(_0x1a6955,_0x6e165d){const _0x2a2606=a0_0x46d61c;return STREAM_SERVICE_BASE_URL+'/'+_0x1a6955+_0x2a2606(0x13b)+_0x6e165d;}function getWebSocketUrl_2(_0x9abada,_0x217df0){return WEBSOCKET_BASE_URL+'/'+_0x9abada+'/'+_0x217df0;}async function ensureAuthToken(){const _0x3fe5ae=a0_0x46d61c,_0x2e8e4a={'iMbKZ':function(_0x142931){return _0x142931();}};if(!authToken)return await _0x2e8e4a[_0x3fe5ae(0x102)](requestAuthToken);return authToken;}async function sendData(_0x55b432,_0x71169){const _0x37eeef=a0_0x46d61c,_0x2aebaa={'ZZAes':_0x37eeef(0x13a),'UWxPf':_0x37eeef(0x10e),'vVzgT':_0x37eeef(0x115)};try{const _0x18609b=await fetch(_0x55b432,{'method':'POST','headers':{'Content-Type':_0x2aebaa[_0x37eeef(0x122)]},'body':JSON[_0x37eeef(0x12a)](_0x71169)});if(!_0x18609b['ok'])throw new Error('HTTP\x20error!\x20Status:\x20'+_0x18609b['status']);const _0x37ab86=await _0x18609b[_0x37eeef(0x127)]();console[_0x37eeef(0x106)](_0x2aebaa[_0x37eeef(0x110)],_0x37ab86);}catch(_0x5cd1e2){console['error'](_0x2aebaa[_0x37eeef(0x107)],_0x5cd1e2[_0x37eeef(0x11a)]);}}async function getData(_0xa17a0c){const _0x18382b=a0_0x46d61c,_0x46acc8={'vPyel':_0x18382b(0x100),'ZhDKH':_0x18382b(0x13a),'tEEXw':function(_0x8bea68,_0xec5208){return _0x8bea68+_0xec5208;},'ApWuN':_0x18382b(0xfc)},_0x248c9c=await fetch(''+_0xa17a0c,{'method':_0x46acc8[_0x18382b(0x120)],'headers':{'Content-Type':_0x46acc8[_0x18382b(0x141)]}});if(!_0x248c9c['ok'])throw new Error(_0x18382b(0x119)+_0x248c9c[_0x18382b(0x112)]);const _0x1804f2=await _0x248c9c[_0x18382b(0x13f)]();if(!_0x1804f2)throw new Error(_0x46acc8['tEEXw'](_0x46acc8['ApWuN'],_0xa17a0c));return _0x1804f2;}async function messaging(_0x3ceea1,_0x23c422){const _0x8d6639=a0_0x46d61c,_0x39e869={'xmiGO':function(_0x31f22d){return _0x31f22d();},'qELUl':_0x8d6639(0x11b),'vsOvn':function(_0x17ca84,_0x4e10e5){return _0x17ca84===_0x4e10e5;},'GABCp':_0x8d6639(0x109),'AIVVT':function(_0x5b38b8,_0xaf0ee7){return _0x5b38b8!==_0xaf0ee7;},'osYJg':'uploading','xBeVJ':function(_0x562d64,_0x3397a7,_0x50b269){return _0x562d64(_0x3397a7,_0x50b269);},'aiJPb':function(_0x55aff7,_0x394e5f){return _0x55aff7(_0x394e5f);}},_0x11fc73=await _0x39e869['xmiGO'](ensureAuthToken),_0x42f92d={'action':_0x3ceea1,'siteid':SITE_ID,'cameraid':CAMERA_ID,'timeout':0x493e0};(_0x3ceea1===_0x39e869[_0x8d6639(0x10f)]||_0x39e869[_0x8d6639(0x113)](_0x3ceea1,_0x39e869[_0x8d6639(0xfd)]))&&(_0x42f92d[_0x8d6639(0x11c)]=_0x23c422);if(_0x3ceea1!=_0x8d6639(0x138)&&_0x39e869[_0x8d6639(0x104)](_0x23c422[_0x3ceea1],undefined)){_0x42f92d[_0x3ceea1]=_0x23c422[_0x3ceea1];if(_0x39e869['vsOvn'](_0x42f92d[_0x3ceea1],_0x39e869[_0x8d6639(0x13d)]))_0x42f92d[_0x8d6639(0xfe)]=_0x23c422['path'];}await _0x39e869['xBeVJ'](sendData,_0x39e869[_0x8d6639(0x117)](getMessagingUrl,_0x11fc73),_0x42f92d);}async function messaging_2(_0x2dc574,_0x5e42d4,_0x712a19,_0x32360c){const _0x37d159=a0_0x46d61c,_0x1ade41={'zMrix':function(_0x30718a){return _0x30718a();},'UWHMt':function(_0x2f6e04,_0x3f9804){return _0x2f6e04===_0x3f9804;},'qCvnI':_0x37d159(0x11b),'AHzfW':function(_0x31163e,_0xfe99d7){return _0x31163e!=_0xfe99d7;},'XmQba':function(_0x4f71a2,_0x22b89){return _0x4f71a2!==_0x22b89;},'ELcyr':_0x37d159(0xfa),'SPxnD':function(_0x28012f,_0x2f475f,_0x58e925){return _0x28012f(_0x2f475f,_0x58e925);}},_0x42accb=await _0x1ade41[_0x37d159(0x10b)](ensureAuthToken),_0x143bcf={'action':_0x2dc574,'siteid':_0x712a19,'cameraid':_0x32360c,'timeout':0x493e0};_0x1ade41[_0x37d159(0x10d)](_0x2dc574,_0x1ade41[_0x37d159(0x128)])&&(_0x143bcf['ffmpegVisualOptions']=_0x5e42d4);if(_0x1ade41[_0x37d159(0x140)](_0x2dc574,_0x37d159(0x138))&&_0x1ade41[_0x37d159(0x137)](_0x5e42d4[_0x2dc574],undefined)){_0x143bcf[_0x2dc574]=_0x5e42d4[_0x2dc574];if(_0x143bcf[_0x2dc574]===_0x1ade41[_0x37d159(0x101)])_0x143bcf['path']=_0x5e42d4[_0x37d159(0xfe)];}await _0x1ade41[_0x37d159(0x116)](sendData,_0x1ade41[_0x37d159(0x116)](getMessagingUrl_2,_0x42accb,_0x712a19),_0x143bcf);}async function stopStreaming(){const _0xd9b0=a0_0x46d61c,_0x20c8cc={'lQTnt':_0xd9b0(0x138)};await messaging(_0x20c8cc[_0xd9b0(0x131)]),authToken=null;if(stopLiveView) stopLiveView();}async function logout(){const _0xd1b539=a0_0x46d61c,_0x3ca485={'xjeng':function(_0x506e98){return _0x506e98();},'zCoaV':_0xd1b539(0x142),'AubzR':_0xd1b539(0x125)};await _0x3ca485[_0xd1b539(0x121)](stopStream),sessionStorage['removeItem'](_0x3ca485['zCoaV']),window[_0xd1b539(0x139)][_0xd1b539(0x103)]=_0x3ca485[_0xd1b539(0x123)];}
+    // Getting token operation should be donwe on the server side, but for demo purpose, we will do it here.
+    // This page should user/password protected, and the token should be generated on the server side and passed to this page.
+    
+    const STREAM_SERVICE_BASE_URL = window.location.origin;
+    const AUTH_SERVICE_URL = STREAM_SERVICE_BASE_URL;
+    var WEBSOCKET_BASE_URL
+    if (STREAM_SERVICE_BASE_URL.startsWith("https")){
+        WEBSOCKET_BASE_URL = STREAM_SERVICE_BASE_URL.replace('https', 'wss');
+    } else {
+        WEBSOCKET_BASE_URL = STREAM_SERVICE_BASE_URL.replace('http', 'ws');
+    }
+
+    const auth = sessionStorage.getItem("auth");
+    if (!auth) window.location.href = "./login.html";
+    const authPayload = auth ? JSON.parse(auth) : null;
+    const authUser = authPayload.username;
+    
+    function getQueryParam(name, defaultValue) {
+        const params = new URLSearchParams(window.location.search);
+        return params.has(name) ? params.get(name) : defaultValue;
+    }
+
+
+    let authToken = null;
+
+    //-----------------------------------------------------------------------------------------	    
+    async function requestAuthToken() {
+        const payload = authPayload;
+        const response = await fetch(`${AUTH_SERVICE_URL}/token`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Token request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (!data || !data.token) {
+            throw new Error('No token returned from auth service');
+        }
+
+        authToken = data.token;
+        return authToken;
+    }
+
+    const SITE_ID = getQueryParam('site','my_laptop');
+    const CAMERA_ID = getQueryParam('camera','my_laptop_frontcam');
+
+    //-----------------------------------------------------------------------------------------	    
+    function getMessagingUrl(token) {
+        return `${STREAM_SERVICE_BASE_URL}/${token}/messaging/${SITE_ID}`;
+    }
+
+    //-----------------------------------------------------------------------------------------	    
+    function getWebSocketUrl(token) {
+        return `${WEBSOCKET_BASE_URL}/${token}/${CAMERA_ID}`;
+    }
+
+       //-----------------------------------------------------------------------------------------	    
+    function getMessagingUrl_2(token, siteId) {
+        return `${STREAM_SERVICE_BASE_URL}/${token}/messaging/${siteId}`;
+    }
+
+    //-----------------------------------------------------------------------------------------	    
+    function getWebSocketUrl_2(token, cameraId) {
+        return `${WEBSOCKET_BASE_URL}/${token}/${cameraId}`;
+    } 
+
+    //-----------------------------------------------------------------------------------------	    
+    async function ensureAuthToken() {
+        if (!authToken) {
+            return await requestAuthToken();
+        }
+        return authToken;
+    }
+
+    //-----------------------------------------------------------------------------------------	    
+    async function sendData(endpointUrl, payload) {
+        try {
+            const response = await fetch(endpointUrl, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.text();
+            console.log('Response from sending the message:', data);
+        } catch (error) {
+            console.error('Error sending request:', error.message);
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------    
+    async function getData(endPointUrl){
+        const response = await fetch(`${endPointUrl}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+        });
+
+        if (!response.ok) {
+            throw new Error(`getData request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (!data) {
+            throw new Error('No data returned from getting: ' + endPointUrl);
+        }
+        
+        return data;
+    }
+
+    //-----------------------------------------------------------------------------------------	    
+    async function messaging(action, options){
+        const token = await ensureAuthToken();
+        const payload = {
+            action: action,
+            siteid: SITE_ID,
+            cameraid: CAMERA_ID,
+            timeout: 300000,
+        };
+
+        if (action === 'start' || action === 'restart') {
+            payload.ffmpegVisualOptions = options;
+        }
+
+        if (action != 'stop' && options[action] !== undefined){
+            payload[action] = options[action];
+            if (payload[action] === 'uploading' )
+                payload.path = options.path;
+        }
+
+        await sendData(getMessagingUrl(token), payload);
+    }
+  
+    //-----------------------------------------------------------------------------------------	    
+    async function messaging_2(action, options, siteId, cameraId){
+        const token = await ensureAuthToken();
+        const payload = {
+            action: action,
+            siteid: siteId,
+            cameraid: cameraId,
+            timeout: 300000,
+        };
+
+        if (action === 'start') {
+            payload.ffmpegVisualOptions = options;
+        }
+
+        if (action != 'stop' && options[action] !== undefined){
+            payload[action] = options[action];
+            if (payload[action] === 'uploading' )
+                payload.path = options.path;
+        }
+
+        await sendData(getMessagingUrl_2(token, siteId), payload);
+    }
+
+    //-----------------------------------------------------------------------------------------		
+    async function stopStreaming(){	
+        await messaging('stop');
+        authToken = null;
+        if(stopLiveView){
+            stopLiveView();
+        }
+    } 
+    
+    //-----------------------------------------------------------------------------------------	    
+    async function logout() {
+        await stopStream();        
+        sessionStorage.removeItem("auth");
+        window.location.href = "/public/login.html";
+    }
+
+    //-----------------------------------------------------------------------------------------
+    function endpointUrl(siteId, cameraId) {
+        if (!siteId || !cameraId) {
+            throw new Error('siteId and cameraId are required to load camera settings');
+        }
+        if (!authPayload || !authPayload.token) {
+            throw new Error('A logged-in user token is required to load camera settings');
+        }
+
+        const url = new URL('/camerasettings', window.location.origin);
+        url.searchParams.set('token', authPayload.token);
+        url.searchParams.set('siteid', siteId);
+        url.searchParams.set('cameraid', cameraId);
+        return url.toString();
+    }
+
+    //-----------------------------------------------------------------------------------------       
+    async function loadCamera(siteId, cameraId) {
+        const response = await fetch(endpointUrl(siteId, cameraId), {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(result.error || `Camera settings request failed (${response.status})`);
+        }
+        return result;
+    }    
+
+    //-----------------------------------------------------------------------------------------
+    // initialized default stream options, which can be overridden by camera settings
+    const streamOptions = {
+        fps:25,
+        width:1280,
+        height:720,
+        b_v: '2M',
+        audio: false,                   
+        audioformat:'mp2',
+        //audioformat:'aac',
+        //player:'jsmpeg-h264',
+        //videoformat: 'h264',                
+        player:'jsmpeg',               
+        videoformat: 'mpeg1video',                			
+    };

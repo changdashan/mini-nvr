@@ -24,7 +24,29 @@
     <script src="jquery-ui-1.14.2/jquery-ui.min.js"></script>     
     <script src="jquery-ui-1.14.2/jquery.ui.touch-punch.min.js"></script>    
 
-    <script type="text/javascript" src="jsmpeg.min.js"></script>
+    <!--jsmpeg player package-->
+    <!--script type="text/javascript" src="jsmpeg/jsmpeg.js"></script> 
+    <script type="text/javascript" src="jsmpeg/ajax.js"></script>
+    <script type="text/javascript" src="jsmpeg/fetch.js"></script>
+    <script type="text/javascript" src="jsmpeg/ajax-progressive.js"></script>
+    <script type="text/javascript" src="jsmpeg/buffer.js"></script>
+    <script type="text/javascript" src="jsmpeg/canvas2d.js"></script>
+    <script type="text/javascript" src="jsmpeg/decoder.js"></script>
+    <script type="text/javascript" src="jsmpeg/mp2.js"></script>
+    <script type="text/javascript" src="jsmpeg/mpeg1.js"></script>
+    <script type="text/javascript" src="jsmpeg/player.js"></script>
+    <script type="text/javascript" src="jsmpeg/ts.js"></script>
+    <script type="text/javascript" src="jsmpeg/video-element.js"></script>
+    <script type="text/javascript" src="jsmpeg/webaudio.js"></script>
+    <script type="text/javascript" src="jsmpeg/webgl.js"></script>
+    <script type="text/javascript" src="jsmpeg/websocket.js"></script>
+    <script type="text/javascript" src="jsmpeg/wasm-module.js"></script>
+    <script type="text/javascript" src="jsmpeg/mp2-wasm.js"></script>
+    <script type="text/javascript" src="jsmpeg/mpeg1-wasm.js"></script>
+    <script type="text/javascript" src="jsmpeg/jsmpeg-wasm.js"></script-->
+
+    <script type="text/javascript" src="jsmpeg.min.js"></script>        
+    <!--script type="text/javascript" src="h264/nodecopter-client-dc.js"--></script>
 
     <script type="text/javascript" src="h264/h264.js"></script>
     <script type="text/javascript" src="h264/h264player.js"></script>		
@@ -45,36 +67,36 @@
 		//-----------------------------------------------------------------------------------------
 		async function showLiveView(siteId, cameraId, cameraName) {
             console.log("siteId=" + siteId + " cameraId=" + cameraId);
-            let cameraNode = {
-                siteId: siteId,
-                cameraId: cameraId,
-                cameraName: cameraName,
-                streamOptions: {
-                    fps: 25,
-                    width: 1280,
-                    height: 720,
-                    b_v: '2M',
-                    audio: false,
-                    audioformat:'mp2',
-                    //audioformat:'aac',
-                    //player:'jsmpeg-h264',               //telling backend what ffmpeg cmd is picked.
-                    //videoformat: 'h264',                //telling jsmpeg player what video format the stream is encoded
-                    player:'jsmpeg',                  //telling backend what ffmpeg cmd is picked.                
-                    videoformat: 'mpeg1video',
-                },
-            }
+
+            //default stream options is initialized in requestauthtoken.js
+            loadCamera(siteId, cameraId).then((camerasetting) => {
+                streamOptions.fps =camerasetting.fps;
+                streamOptions.width =camerasetting.width;
+                streamOptions.height =camerasetting.height;
+                streamOptions.b_v =camerasetting.b_v;
+                streamOptions.audio =camerasetting.audio;
+                streamOptions.audioformat =camerasetting.audioformat;
+                streamOptions.player =camerasetting.player;
+                streamOptions.videoformat =camerasetting.videoformat || 'mpeg1video';
+            });
 
             let playerOptions = {
                 dialog_divId:null,
                 canvas:null, 
-                videoformat:cameraNode.streamOptions.videoformat, 
-                audio:cameraNode.streamOptions.audio, 
-                audioformat:cameraNode.streamOptions.audioformat, 
-                width:cameraNode.streamOptions.width, 
-                height:cameraNode.streamOptions.height, 
+                videoformat:streamOptions.videoformat, 
+                audio:streamOptions.audio, 
+                audioformat:streamOptions.audioformat, 
+                width:streamOptions.width, 
+                height:streamOptions.height, 
             }
 
-            cameraNode.playerOptions = playerOptions;
+            let cameraNode = {
+                siteId: siteId,
+                cameraId: cameraId,
+                cameraName: cameraName,
+                streamOptions: streamOptions,
+                playerOptions: playerOptions,
+            }
 
             await videoLiveViewMore.ShowLiveViewOfCamera(cameraNode);
 		}

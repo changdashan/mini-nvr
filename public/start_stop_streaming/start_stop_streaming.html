@@ -21,24 +21,22 @@
 		<script type="text/javascript" src="../requestauthtoken.js"></script>		
 		 
 		<script type="text/javascript">
-		
-			const streamOptions = {
-				fps:25,
-				width:1280,
-				height:720,
-				b_v: '2M',
-				audio: false,                   
-				audioformat:'mp2',
-                //audioformat:'aac',
-                //player:'jsmpeg-h264',
-                //videoformat: 'h264',                
-                player:'jsmpeg',               
-                videoformat: 'mpeg1video',                			
-			};
+	
 
-			const audio = streamOptions.audio;
-			const audioFormat = streamOptions.audioformat; 
-			const videoFormat = streamOptions.videoformat;
+            //default stream options is declared in requestauthtoken.js
+            if (SITE_ID && CAMERA_ID) {
+                loadCamera(SITE_ID, CAMERA_ID).then((camerasetting) => {
+                    streamOptions.fps =camerasetting.fps;
+                    streamOptions.width =camerasetting.width;
+                    streamOptions.height =camerasetting.height;
+                    streamOptions.b_v =camerasetting.b_v;
+                    streamOptions.audio =camerasetting.audio;
+                    streamOptions.audioformat =camerasetting.audioformat;
+                    streamOptions.player =camerasetting.player;
+                    streamOptions.videoformat =camerasetting.videoformat || 'mpeg1video';
+                    startStreaming('start');
+                });
+            }  
 
 			//------------------------------------------------------------------------------------
 			async function startStreaming(action='restart') {
@@ -60,7 +58,7 @@
 				div_liveview.appendChild(canvas);
 				var url = getWebSocketUrl(token);;
 				
-				window.player = new JSMpeg.Player(url, {div:div_liveview, canvas: canvas, videoformat:videoFormat, audio:audio, audioformat:audioFormat, width:streamOptions.width, height:streamOptions.height, disableGl:false, disableWebAssembly:false, disableWebAudio:false, disableAudio:false});
+				window.player = new JSMpeg.Player(url, {div:div_liveview, canvas: canvas, videoformat:streamOptions.videoformat, audio:streamOptions.audio, audioformat:streamOptions.audioformat, width:streamOptions.width, height:streamOptions.height, disableGl:false, disableWebAssembly:false, disableWebAudio:false, disableAudio:false});
 								
 				window.msgdiv = document.createElement("div");
 				msgdiv.setAttribute("id", "msgdiv");
@@ -138,10 +136,7 @@
                 }           
             }          
 
-            if (SITE_ID && CAMERA_ID) {
-                startStreaming('start');
-            }
-  
+
 		</script>		
 	 
 	</head>

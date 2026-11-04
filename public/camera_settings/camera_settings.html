@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Settings</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 10px;
+            background: #f3f5f8;
+            color: #20242a;
+            font: 14px Arial, Helvetica, sans-serif;
+        }
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid #d6dbe2;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px #00000012;
+        }
+        h1 { margin: 0 0 4px; font-size: 20px; font-weight: 400; }
+        #formDescription { margin: 0 0 4px; }
+        #formMessage { min-height: 18px; margin: 4px 0 8px; }
+        #formMessage.error { color: #b42318; }
+        #formMessage.success { color: #167447; }
+        .fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px 12px;
+        }
+        label { display: flex; flex-direction: column; gap: 3px; font-weight: 400; }
+        input, select {
+            width: 100%;
+            height: 30px;
+            min-height: 30px;
+            padding: 4px 6px;
+            border: 1px solid #aeb7c2;
+            border-radius: 3px;
+            font: inherit;
+        }
+        input:disabled { background: #edf0f3; color: #555; }
+        .check-field { flex-direction: row; align-items: center; padding-top: 22px; }
+        .check-field input { width: 18px; height: 18px; min-height: 18px; }
+        .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        button {
+            min-height: 32px;
+            padding: 5px 12px;
+            border: 0;
+            border-radius: 4px;
+            background: #0876d1;
+            color: white;
+            font: inherit;
+            cursor: pointer;
+        }
+        button.secondary { background: #59636f; }
+        button.danger { background: #b42318; }
+        @media (max-width: 600px) {
+            body { padding: 6px; }
+            main { padding: 10px; }
+            .fields { grid-template-columns: 1fr; gap: 8px; }
+            .check-field { padding-top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Camera Settings</h1>
+        <p id="formDescription">Edit the selected camera or add a new camera.</p>
+        <div id="formMessage" role="status" aria-live="polite"></div>
+        <form id="cameraForm">
+            <div class="fields">
+                <label>Site ID<input name="siteid" required maxlength="120"></label>
+                <label>Camera ID<input name="cameraid" required maxlength="120"></label>
+                <label>Label<input name="label" maxlength="200"></label>
+                <label>Stream source
+                    <select name="streamsource"><option value="video">Video device</option><option value="rtsp">RTSP</option></select>
+                </label>
+                <label>Video device<input name="videodevice"></label>
+                <label>Audio device<input name="audiodevice"></label>
+                <label>Camera IP<input name="cameraip"></label>
+                <label>RTSP path / URL<input name="rtsp" autocomplete="off"></label>
+                <label>RTSP port<input name="rtspport"></label>
+                <label>RTSP username<input name="rtspuser" autocomplete="off"></label>
+                <label>RTSP password<input name="rtsppwd" type="password" autocomplete="new-password"></label>
+                <label>FPS<input name="fps" type="number" min="1" step="1" required></label>
+                <label>Width<input name="width" type="number" min="1" step="1" required></label>
+                <label>Height<input name="height" type="number" min="1" step="1" required></label>
+                <label>Video bitrate<input name="b_v"></label>
+                <label>Audio format<input name="audioformat"></label>
+                <label>Player<input name="player"></label>
+                <label>FFmpeg stats option<input name="nostats"></label>
+                <label class="check-field"><input name="audio" type="checkbox"> Enable audio</label>
+                <label class="check-field"><input name="enabled" type="checkbox"> Camera enabled</label>
+            </div>
+            <div class="actions">
+                <button id="saveButton" type="submit">Save changes</button>
+                <button id="addButton" class="secondary" type="button">Add</button>
+                <button id="deleteButton" class="danger" type="button" hidden>Delete</button>
+                <button id="cancelAddButton" class="secondary" type="button" hidden>Cancel add</button>
+            </div>
+        </form>
+    </main>
+	<script type="text/javascript" src="../requestauthtoken.js"></script>    
+    <script src="camera_settings.js"></script>
+</body>
+</html>

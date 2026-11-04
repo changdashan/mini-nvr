@@ -450,6 +450,10 @@
             <a href="/public/video_recorder/MediaRecorder.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
                 Web Recorder                
             </a>
+
+            <a href="/public/camera_settings/camera_settings.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+                Settings
+            </a>
             
             <a href="/public/license.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
                 License                
@@ -572,8 +576,8 @@
             const link = event.currentTarget;
             const parsedUrl = new URL(link.href, window.location.href);
             // Replace this with however you obtain your token
-            const token = sessionStorage.getItem("auth");
-            parsedUrl.searchParams.set("token", token);
+            const authInfo = JSON.parse(sessionStorage.getItem("auth") || "{}");
+            parsedUrl.searchParams.set("token", authInfo.token || "");
 
             const viewPortFrame = document.getElementById("liveViewPortFrame");
 
@@ -712,6 +716,23 @@
         // Make sure the user has logged in.
         const authStr = sessionStorage.getItem("auth");
         const authinfo = JSON.parse(authStr);
+        window.refreshCameraList = async function(siteId, cameraId) {
+            await getCameras(authinfo.token);
+            if (!siteId || !cameraId) {
+                selectedSiteId = "";
+                selectedCameraId = "";
+                selectedCameraName = "";
+            }
+            document.querySelectorAll(".camera-item").forEach(item => {
+                const isSelected = item.dataset.site === siteId && item.dataset.camera === cameraId;
+                item.classList.toggle("active", isSelected);
+                if (isSelected) {
+                    selectedSiteId = siteId;
+                    selectedCameraId = cameraId;
+                    selectedCameraName = item.textContent;
+                }
+            });
+        };
         if (!authStr) {
             console.log("no login auth found. go to login page.");
             //if (!window.location.href.toUpperCase().includes("/PUBLIC/")){
