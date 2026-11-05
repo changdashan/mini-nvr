@@ -8,8 +8,8 @@ const SENDING_ALERT_EMAIL = false;
 const RABBITMQ_USER = 'guest';
 const RABBITMQ_PASSWORD = 'guest';
 
-const SSL_KEY_FILE = './sslcert/192.168.1.167-key.pem'
-const SSL_CERT_FILE = './sslcert/192.168.1.167.pem'
+const SSL_KEY_FILE = './sslcert/192.168.1.167-key.pem';
+const SSL_CERT_FILE = './sslcert/192.168.1.167.pem';
 
 const DEFAULT_TOKEN_EXPIRY_SECONDS = 30000;
 const DEFAULT_AUDIENCE = 'stream-server';
@@ -54,7 +54,30 @@ const CV_OPTIONS = {
 }
 
 //-------------------------------------------------------------------------------------------------
-const SITE_CAMERAS = [   
+const SITE_CAMERAS = [  
+    {  
+        "siteid":"my_home", 
+        "cameraid": "my_web_camera_1", 
+        "label":"My Web Camera 1", 
+        "videodevice":"Logi C270 HD WebCam", 
+        "audiodevice":"",
+        "streamsource":"video", 
+        "cameraip":"", 
+        "rtsp":"", 
+        "rtspport":"", 
+        "rtspuser":"", 
+        "rtsppwd":"", 
+		"fps":25,
+		"width":1280,
+		"height":720,
+		"b_v": "2M",
+		"audio": false,
+		"audioformat":"mp2",
+        "nostats":"-nostats",
+		"player":"jsmpeg",
+        "enabled":true,       
+    },
+
     {  
         "siteid":"my_home", 
         "cameraid": "my_web_camera", 
@@ -86,7 +109,7 @@ const SITE_CAMERAS = [
         "audiodevice":"",      
         "streamsource":"rtsp", 
         "cameraip":"192.168.1.168", 
-        "rtsp":"rtsp://[user:password]@192.168.1.168:554/stream0", 
+        "rtsp":"rtsp://dchang:X142536N@192.168.1.168:554/stream0", 
         "rtspport":"554", 
         "rtspuser":"", 
         "rtsppwd":"", 
