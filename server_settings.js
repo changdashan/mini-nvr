@@ -49,7 +49,7 @@ const CV_OPTIONS = {
     motionframesrequired:5, 
     preseconds:2,
     postseconds:8,
-    executionprovider:'dml',
+    executionprovider:'cpu',  //'dml',
     object_confidence_threshold:0.40,
 }
 
