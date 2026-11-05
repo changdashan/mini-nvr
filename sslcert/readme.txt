@@ -1,0 +1,1 @@
+The existence of this readme.txt is to commit the ./sslcert folder to GitHub.
