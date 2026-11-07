@@ -349,7 +349,7 @@ There are several ways to determine the camera's RTSP URL:
    rtsp://[ip address]:554/stream0
    ```
 2. Check the camera's user manual.
-3. Check the camera's configuration page, typically accessible at:text
+3. Check the camera's web page, typically accessible at:
    ```text
    http://[camera ip]
    ```
