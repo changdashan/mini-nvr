@@ -13,7 +13,9 @@ Go to the [official Node.js website](<https://nodejs.org/en/download>) to downlo
 
 #### 2\. Download and Unzip Mini-NVR
 
-Download the zip file from this GitHub and unzip it into a folder, for example, c:\mini-nvr
+Download the zip file from this GitHub and unzip it into a folder, for example, c:\mini-nvr<br/>
+
+You'd better try it on a computer with a built-in or USB camera.
 
 ### Start Mini-NVR
 
@@ -34,7 +36,8 @@ C:\mini-nvr> start.bat
 ```
 
 ### 3\. Logon to mini-nvr web app:
-When Chrome is open up the login page, enter 'admin' and 'admin!23' to logon.
+When Chrome is open up the login page, enter 'admin' and 'admin!23' to logon.<br/>
+If you have a built-in or USB camera with your computer, the first camera should start to work. Select the first camera on the side bar and the Start & Stop top navi bar, you should see live of that camera. If you don't see it, please follow the instructions of documentation below. 
 
 ---
 
