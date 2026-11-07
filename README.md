@@ -37,7 +37,7 @@ C:\mini-nvr> start.bat
 
 ### 3\. Logon to mini-nvr web app:
 When Chrome is open up the login page, enter 'admin' and 'admin!23' to logon.<br/>
-If you have a built-in or USB camera with your computer, the first camera should start to work. Select the first camera on the side bar and the Start & Stop top navi bar, you should see live of that camera. If you don't see it, please follow the instructions of documentation below. 
+If you have a built-in or USB camera with your computer, the first camera should start to work. Select the first camera on the side bar and the Start & Stop on the top menu bar, you should see live view of that camera. If you don't see it, please follow the instructions of documentation below. 
 
 ---
 
