@@ -3,6 +3,10 @@
 
 **A simple, lightweight home video surveillance system**
 
+## Mini-NVR Demoshot:
+
+![Settings Example](./public/mini-nvr-demo.png)
+
 ## Quick Setting Up and Start
 
 ### Installations
@@ -281,11 +285,18 @@ Built-in webcams and USB-connected cameras on the Mini-NVR server are registered
 
 However, IP cameras and built-in cameras connected to other computers must be registered manually before they can join the system.
 
-IP cameras supporting RTSP and night vision are particularly suitable for surveillance during both daytime and nighttime.
+IP cameras supporting RTSP and night vision are particularly suitable for surveillance both day and night.
 
 Here, we focus on adding an IP camera to the system.
 
-You can register a new IP camera by modifying an existing entry or adding a new entry to the `SITE_CAMERAS` array in `server_settings.js`.
+There are two ways to manually register a camera to the system.
+#### Method 1:
+Add or edit it via the camera settings form with the Settings tag of the top manu bar:
+
+![Settings Example](./public/settings.png)
+
+#### Method 2: 
+Add or edit it by modifying an existing entry to the `SITE_CAMERAS` array in `server_settings.js`.
 
 #### Example Camera Configuration
 
