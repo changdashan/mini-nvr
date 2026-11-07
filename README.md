@@ -36,6 +36,7 @@ C:\mini-nvr> start.bat
 ### 3\. Logon to mini-nvr web app:
 When Chrome is open up the login page, enter 'admin' and 'admin!23' to logon.
 
+---
 
 ## Table of Contents
 
