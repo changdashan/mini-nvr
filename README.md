@@ -3,6 +3,40 @@
 
 **A simple, lightweight home video surveillance system**
 
+## Quick Setting Up and Start
+
+### Installations
+
+#### 1\. Download and Install Node.js
+
+Go to the [official Node.js website](<https://nodejs.org/en/download>) to download and install it.
+
+#### 2\. Download and Unzip Mini-NVR
+
+Download the zip file from this GitHub and unzip it into a folder, for example, c:\mini-nvr
+
+### Start Mini-NVR
+
+#### 1\. Preparing (Run Once)
+
+Open a command prompt, change to the `mini-nvr/utility` folder, and execute:
+
+```bat
+C:\mini-nvr\utility> preparing.bat
+```
+
+#### 2\. Start Mini-NVR Server
+
+Change back to c:\mini-nvr, and execute:
+
+```bat
+C:\mini-nvr> start.bat
+```
+
+### 3\. Logon to mini-nvr web app:
+When Chrome is open up the login page, enter 'admin' and 'admin!23' to logon.
+
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -11,9 +45,6 @@
 - [Installations](#installations)
 - [Start Mini-NVR](#start-mini-nvr)
 - [Server Settings](#server-settings)
-  - Change the Admin User's Password
-  - Add a New User
-  - Manually Add a Camera
 - [Running StreamPump on Another Computer](#Running-StreamPump-Service-on-Another-Computer)
 - [Internet Access](#make-mini-nvr-accessible-over-the-internet)
 - [License and Disclaimer](#License-and-Disclaimer)
@@ -22,22 +53,16 @@
 
 ## Overview
 
-**Mini-NVR** is a simple, lightweight video surveillance application designed to be easy to set up and use while providing essential home security features.
+**Mini-NVR** is a simple, lightweight video surveillance app designed to be easy to set up and use while providing essential home security features.
 
-Advanced NVR systems can be complex to configure and often require expensive or powerful hardware. **Mini-NVR requires neither.** You can run it on an ordinary Windows laptop or desktop computer and use its built-in webcam, a USB camera, or IP cameras that support RTSP as your surveillance cameras.
+You can run it on an ordinary Windows laptop or desktop computer and use its built-in webcam, a USB camera, or IP cameras that support RTSP as your surveillance cameras.
 
-With port forwarding configured on your home Wi-Fi router, you can make Mini-NVR accessible over the internet, allowing you to monitor your home anytime, from anywhere. Simply use a web browser on your smartphone, tablet, or computer to access and manage its features remotely.
+You can make Mini-NVR accessible over the internet by setting up a portforwarding on your home WiFi router, allowing you to monitor your home anytime, from anywhere with a browser.
 
-Mini-NVR provides the essential surveillance and monitoring capabilities you may need to help keep an eye on your home, without the additional cost of a dedicated NVR system or subscription fees.
+These essential surveillance and monitoring capabilities may meet your needs without the additional cost of a dedicated NVR system or subscription fees.
 
 **Most importantly, Mini-NVR puts you in control of your data and privacy.** Your recordings, snapshots, and other surveillance data are stored on your own computer rather than in a third-party cloud service, giving you greater control over who can access them.
 
-Mini-NVR currently lacks some advanced NVR features, such as:
-
-- Region of Interest (ROI) settings.
-- Zooming in on license plates and human faces.
-
-A scheduling feature is planned for a future release.
 
 ## Features
 
@@ -45,17 +70,17 @@ A scheduling feature is planned for a future release.
 
 The system captures live video streams from each registered camera and stores them locally in the `./srvr_recordings` folder on the server computer.
 
-You can configure how many days to retain recordings.
+You can configure the days to retain recordings.
 
 ### Live View
 
-View connected cameras in real time using an internet browser, with support for multiple simultaneous views.
+View connected cameras live using an internet browser. You can have multiple simultaneous live views.
 
-You can resize and move live-view windows around the user interface using your mouse or finger.
+You can resize and move live-view dialogs around the view port using your mouse or finger.
 
 ### Motion and Object Detection
 
-Uses AI to detect moving objects and identify people or vehicles loitering around your property.
+Uses AI to detect motion objects and identify people or vehicles loitering around your property.
 
 ### Storing Alert Footage
 
@@ -67,7 +92,7 @@ text
 .\public\footage_reviewer\motion_footages\[cameraId]\[yyyy-mm-dd]
 ```
 
-You can configure how many days to retain alert footage clips.
+You can configure the days to retain alert footage clips.
 
 ### Footage Review
 
@@ -75,7 +100,7 @@ View recorded event footage clips from the **Event Footage Review** tab.
 
 Search and slideshow features make reviewing footage more convenient and efficient.
 
-You can also easily review alert clips using Windows File Explorer.
+You can also easily review alert clips using other Windows tools such as VLC and Media Player.
 
 ### Playback Recordings
 
@@ -83,7 +108,7 @@ If you want to examine the context of an event in greater detail, the recording 
 
 Search, chronological recording lists, and slideshow features make it easy to locate relevant recordings.
 
-You can also use Windows File Explorer and VLC Player to play recordings.
+You can also use Windows File Explorer and VLC/Media Player to play back recordings.
 
 ### Email Notifications
 
@@ -93,7 +118,7 @@ The corresponding footage clip can be attached to the email.
 
 ### Web Recorder
 
-Although this feature is not directly related to NVR functionality, you can use it to record anything with your smartphone.
+Although this feature is not related to NVR functionality, you can use it to record anything with your smartphone.
 
 Recordings are saved immediately on your Mini-NVR server.
 
@@ -144,8 +169,6 @@ If it cannot, add the Node.js installation folder to your system environment `PA
 
 Download Mini-NVR from its GitHub repository and unzip it into a folder, for example:
 
-text
-
 ```text
 C:\mini-nvr
 ```
@@ -160,8 +183,6 @@ The downloaded package contains all the necessary components to run Mini-NVR.
 
 Open a command prompt, change to the `mini-nvr/utility` folder, and execute:
 
-bat
-
 ```bat
 C:\mini-nvr\utility> preparing.bat
 ```
@@ -170,7 +191,7 @@ You only need to run this utility once. There is no need to execute it every tim
 
 The utility performs two tasks:
 
-1. **Generates and installs TLS certificates**Generates a self-signed TLS root CA certificate (`rootCA.pem`), together with the required private key and certificate files, in the `.sslcert` folder.
+1. **Generates and installs TLS certificates**Generates a self-signed TLS root CA certificate (`rootCA.pem`), together with the required private key and certificate files, in the `./sslcert` folder.
 2. **Detects locally connected video cameras**Detects video devices connected to the current computer, including built-in and USB-connected cameras.
    If cameras are detected, the utility adds corresponding entries to the `SITE_CAMERAS` list in `server_setting.js`.
    Each automatically registered camera receives:
@@ -181,8 +202,6 @@ The utility performs two tasks:
 ### 2\. Start Mini-NVR Server
 
 Open a command prompt, change to the Mini-NVR installation folder, and execute:
-
-bat
 
 ```bat
 C:\mini-nvr> start.bat
@@ -222,8 +241,6 @@ Use Notepad or Notepad++ to open `server_settings.js`.
 
 Locate the following code segment and change the administrator's password from `admin!23` to something else, for example, `password!23`.
 
-javascript
-
 ```javascript
 const USERACCOUNTS = {
     admin: {
@@ -238,8 +255,6 @@ const USERACCOUNTS = {
 You can add a new user by copying the administrator entry and changing the username, password, and roles.
 
 For example:
-
-javascript
 
 ```javascript
 const USERACCOUNTS = {
@@ -269,8 +284,6 @@ Here, we focus on adding an IP camera to the system.
 You can register a new IP camera by modifying an existing entry or adding a new entry to the `SITE_CAMERAS` array in `server_settings.js`.
 
 #### Example Camera Configuration
-
-javascript
 
 ```javascript
 {
@@ -347,8 +360,6 @@ Use Notepad to open the `start_streampump.bat` file and update the Mini-NVR serv
 
 Example:
 
-bat
-
 ```bat
 REM node ./streampump.min.js [mini-nvr server and port] [user] [pwd] [siteid]
 
@@ -397,8 +408,6 @@ You can find it by visiting:
 Once port forwarding is configured, you should be able to access Mini-NVR remotely by entering your home's public IP address and the appropriate port number in the web browser on your iPhone, iPad, or Android device.
 
 Use the following URL format:
-
-text
 
 ```text
 https://[your-public-IP-address]:[port-number]
