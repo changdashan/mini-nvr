@@ -5,7 +5,8 @@
 
 ## Mini-NVR Demoshot:
 
-![Settings Example](./public/mini-nvr-demo.png)
+<img src="./public/mini-nvr-demo.png" align="left" width="800">
+
 ## Quick Setting Up and Start
 
 ### Installations
