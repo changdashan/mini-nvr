@@ -6,6 +6,7 @@
 ## Mini-NVR Demoshot:
 
 <img src="./public/mini-nvr-demo.png" align="left" width="800">
+<br clear="both" />
 
 ## Quick Setting Up and Start
 
