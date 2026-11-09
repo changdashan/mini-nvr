@@ -88,6 +88,8 @@
                 audioformat:streamOptions.audioformat, 
                 width:streamOptions.width, 
                 height:streamOptions.height, 
+                videoBufferSize:4*1024*1024,
+                disableWebAssembly:true,
             }
 
             let cameraNode = {
