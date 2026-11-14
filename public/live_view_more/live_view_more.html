@@ -4,7 +4,7 @@
 	<title>Multiple Camera Live Views</title>
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">	
 	<link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="jquery-ui-1.14.2/jquery-ui.min.css"> 
+    <link rel="stylesheet" href="../js/libs/jquery-ui-1.14.2/jquery-ui.min.css"> 
 
     <style>
         .ui-dialog .ui-dialog-content {
@@ -20,47 +20,26 @@
         
     </style>
 
-    <script src="jquery-ui-1.14.2/external/jquery/jquery-4.0.0.min.js"></script>
-    <script src="jquery-ui-1.14.2/jquery-ui.min.js"></script>     
-    <script src="jquery-ui-1.14.2/jquery.ui.touch-punch.min.js"></script>    
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/external/jquery/jquery-4.0.0.min.js"></script>
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/jquery-ui.min.js"></script>     
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/jquery.ui.touch-punch.min.js"></script>    
 
-    <!--jsmpeg player package-->
-    <!--script type="text/javascript" src="jsmpeg/jsmpeg.js"></script> 
-    <script type="text/javascript" src="jsmpeg/ajax.js"></script>
-    <script type="text/javascript" src="jsmpeg/fetch.js"></script>
-    <script type="text/javascript" src="jsmpeg/ajax-progressive.js"></script>
-    <script type="text/javascript" src="jsmpeg/buffer.js"></script>
-    <script type="text/javascript" src="jsmpeg/canvas2d.js"></script>
-    <script type="text/javascript" src="jsmpeg/decoder.js"></script>
-    <script type="text/javascript" src="jsmpeg/mp2.js"></script>
-    <script type="text/javascript" src="jsmpeg/mpeg1.js"></script>
-    <script type="text/javascript" src="jsmpeg/player.js"></script>
-    <script type="text/javascript" src="jsmpeg/ts.js"></script>
-    <script type="text/javascript" src="jsmpeg/video-element.js"></script>
-    <script type="text/javascript" src="jsmpeg/webaudio.js"></script>
-    <script type="text/javascript" src="jsmpeg/webgl.js"></script>
-    <script type="text/javascript" src="jsmpeg/websocket.js"></script>
-    <script type="text/javascript" src="jsmpeg/wasm-module.js"></script>
-    <script type="text/javascript" src="jsmpeg/mp2-wasm.js"></script>
-    <script type="text/javascript" src="jsmpeg/mpeg1-wasm.js"></script>
-    <script type="text/javascript" src="jsmpeg/jsmpeg-wasm.js"></script-->
+    <script type="text/javascript" src="../js/libs/jsmpeg/jsmpeg.min.js"></script>        
 
-    <script type="text/javascript" src="jsmpeg.min.js"></script>        
-    <!--script type="text/javascript" src="h264/nodecopter-client-dc.js"--></script>
-
-    <script type="text/javascript" src="h264/h264.js"></script>
-    <script type="text/javascript" src="h264/h264player.js"></script>		
-    <script type="text/javascript" src="h264/h264video.js"></script>
+    <script type="text/javascript" src="../js/libs/h264/h264.js"></script>
+    <script type="text/javascript" src="../js/libs/h264/h264player.js"></script>		
+    <script type="text/javascript" src="../js/libs/h264/h264video.js"></script>
         
     <!--acc audio player package-->
-    <script type="text/javascript" src="aac/aurora.js"></script>
-    <script type="text/javascript" src="aac/faac.js"></script>
-    <script type="text/javascript" src="aac/faurora-websocket.js"></script>
-    <script type="text/javascript" src="aac/faacaudio.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/aurora.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faac.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faurora-websocket.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faacaudio.js"></script>
 
     <!--script src="js/views/liveview.js"></script-->
 	<script type="text/javascript" src="../requestauthtoken.js"></script>
-	<script type="text/javascript" src="live_view_more.js"></script>    		
+	<script type="text/javascript" src="live_view_more.js"></script>
+        		
 	<script type="text/javascript">
 
         let videoLiveViewMore = VideoLiveViewMore;
