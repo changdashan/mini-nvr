@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Multiple Camera Live Views</title>
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">	
+	<link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="jquery-ui-1.14.2/jquery-ui.min.css"> 
+
+    <style>
+        .ui-dialog .ui-dialog-content {
+            overflow: hidden !important;
+            padding-left: 0px !important;
+            padding-top: 0px !important;            
+        }
+
+        .ui-dialog .ui-dialog-titlebar span.ui-dialog-title {
+            font-size: 12px !important;
+            font-weight: normal;
+        }
+
+        .circle {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .reddot {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            display: none;
+        } 
+        
+        #event_alert {
+            width: 500px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;            
+        }
+        
+    </style>
+
+
+
+    <script src="jquery-ui-1.14.2/external/jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery-ui-1.14.2/jquery-ui.min.js"></script>     
+    <script src="jquery-ui-1.14.2/jquery.ui.touch-punch.min.js"></script> 
+
+    <!--link href="./js/libs/enhsplitter/css/jquery.enhsplitter.css" rel="stylesheet"/>
+    <script type="text/javascript" src="./js/libs/enhsplitter/js/jquery.enhsplitter.js"></script--> 
+
+    <link href="./js/libs/jquery.splitter/css/jquery.splitter.css" rel="stylesheet"/>
+    <script type="text/javascript" src="./js/libs/jquery.splitter/js/jquery.splitter.js"></script>        
+
+    <!--jsmpeg player package-->
+    <!--script type="text/javascript" src="jsmpeg/jsmpeg.js"></script> 
+    <script type="text/javascript" src="jsmpeg/ajax.js"></script>
+    <script type="text/javascript" src="jsmpeg/fetch.js"></script>
+    <script type="text/javascript" src="jsmpeg/ajax-progressive.js"></script>
+    <script type="text/javascript" src="jsmpeg/buffer.js"></script>
+    <script type="text/javascript" src="jsmpeg/canvas2d.js"></script>
+    <script type="text/javascript" src="jsmpeg/decoder.js"></script>
+    <script type="text/javascript" src="jsmpeg/mp2.js"></script>
+    <script type="text/javascript" src="jsmpeg/mpeg1.js"></script>
+    <script type="text/javascript" src="jsmpeg/player.js"></script>
+    <script type="text/javascript" src="jsmpeg/ts.js"></script>
+    <script type="text/javascript" src="jsmpeg/video-element.js"></script>
+    <script type="text/javascript" src="jsmpeg/webaudio.js"></script>
+    <script type="text/javascript" src="jsmpeg/webgl.js"></script>
+    <script type="text/javascript" src="jsmpeg/websocket.js"></script>
+    <script type="text/javascript" src="jsmpeg/wasm-module.js"></script>
+    <script type="text/javascript" src="jsmpeg/mp2-wasm.js"></script>
+    <script type="text/javascript" src="jsmpeg/mpeg1-wasm.js"></script>
+    <script type="text/javascript" src="jsmpeg/jsmpeg-wasm.js"></script-->
+
+    <script type="text/javascript" src="jsmpeg.min.js"></script>        
+    <!--script type="text/javascript" src="h264/nodecopter-client-dc.js"--></script>
+
+    <script type="text/javascript" src="h264/h264.js"></script>
+    <script type="text/javascript" src="h264/h264player.js"></script>		
+    <script type="text/javascript" src="h264/h264video.js"></script>
+        
+    <!--acc audio player package-->
+    <script type="text/javascript" src="aac/aurora.js"></script>
+    <script type="text/javascript" src="aac/faac.js"></script>
+    <script type="text/javascript" src="aac/faurora-websocket.js"></script>
+    <script type="text/javascript" src="aac/faacaudio.js"></script>
+
+    <!--script src="js/views/liveview.js"></script-->
+	<script type="text/javascript" src="../requestauthtoken.js"></script>
+	<script type="text/javascript" src="monitor.js"></script>    		
+	<script type="text/javascript">
+
+        let videoLiveViewMore = VideoLiveViewMore;
+
+        jQuery( async function ($) {
+            const isCompactLayout = window.matchMedia(
+                '(max-width: 600px), (orientation: landscape) and (max-height: 500px)'
+            ).matches;
+
+            $('#monitor_panels').split({
+                orientation: 'vertical',
+                minSize: 200,
+                handle: 'default',
+                position: isCompactLayout ? '50%' : 640,
+            });
+
+            $('#eventview_panels').split({
+                orientation: 'horizontal',
+                minSize: 150,
+                handle: 'default',
+                position: 150,
+            });
+
+            let eventcount = 0;
+            const playbackDiv = document.getElementById("playbackDiv");
+            const video_showrecording = document.getElementById('videoShowRecording');
+            const imgShowSnapshot = document.getElementById('imgShowSnapshot');
+            video_showrecording.style.display = "none";
+            //playbackDiv.style.display = "none";
+            //imgShowSnapshot.style.display = "none";
+
+            let snapshotIconsDiv = $('#snapshotIcons');
+            // Connect to a secure WebSocket endpoint
+            const token = await ensureAuthToken(); // Assume this function retrieves the auth token
+            if (!token) {
+                console.error("Auth token is missing. Cannot establish WebSocket connection.");
+                return;
+            }
+            const socket = new WebSocket(`${getWebSocketUrl_2(token, "anycamera")}/event`);
+
+            // 1. Connection opened
+            socket.addEventListener("open", (event) => {
+                console.log("Secure connection established.");
+                socket.send(JSON.stringify({ type: "greeting", payload: "Hello Server!" }));
+            });
+
+            // 2. Listen for incoming messages
+            socket.addEventListener("message", (event) => {
+                try {
+
+                    const data = JSON.parse(event.data);
+                    //console.log("Message from server:", data);
+                    //const timestamp = new Date().toLocaleString();
+
+                    const clipname = data.filename;
+                    const clipurl = '/' + data.relativePath; 
+                    const snapshot_url = clipurl.replaceAll(".mp4", ".jpg");
+                    const timestamp = data.timestamp;
+                    const status = data.status;
+                    if (status === 'eventtriggered'){
+                        startFlash();
+                        const url = new URL(snapshot_url, window.location.origin);                                  
+                        videoLiveViewMore.playRecordedClip(url.pathname);
+                        return;
+                    }                    
+
+                    let imgTag = `<img src='${snapshot_url}' width='160' height='90' style='margin:1px'/><br/><span style='font-size:10px;'>${timestamp}</span>`;
+       
+                    let htmlstr = `<a href='${clipurl}' onclick='videoLiveViewMore.playbackclip(event)' data-timestamp='${timestamp}'>${imgTag}</a>`;
+
+                    snapshotIconsDiv.append(htmlstr);
+
+                    eventcount ++;
+                    let event_cnt = document.getElementById('eventcount');
+                    event_cnt.innerText = eventcount;
+                    stopFlash();
+
+                    setTimeout(() => {
+                        snapshotIconsDiv.find('a').last()[0].click();
+                    }, 1000 );
+
+                } catch (err) {
+                    console.log("Error occurred:", err);
+                }
+            });
+
+            // 3. Handle connection errors
+            socket.addEventListener("error", (event) => {
+                console.error("WebSocket error observed:", event);
+            });
+
+            // 4. Connection closed
+            socket.addEventListener("close", (event) => {
+                console.log(`Connection closed (Code: ${event.code})`);
+            });
+
+        });
+
+        //let videoLiveViewMore = VideoLiveViewMore;
+		//-----------------------------------------------------------------------------------------
+		async function showLiveView(siteId, cameraId, cameraName) {
+            console.log("siteId=" + siteId + " cameraId=" + cameraId);
+
+            let cameraSetting;
+            try {
+                cameraSetting = await loadCamera(siteId, cameraId);
+            } catch (error) {
+                console.error("Failed to load camera settings; live view was not started.", error);
+                alert("Failed to load camera settings. Please try again.");
+                return;
+            }
+
+            const cameraStreamOptions = {
+                ...streamOptions,
+                fps: cameraSetting.fps,
+                width: cameraSetting.width,
+                height: cameraSetting.height,
+                b_v: cameraSetting.b_v,
+                audio: cameraSetting.audio,
+                audioformat: cameraSetting.audioformat,
+                player: cameraSetting.player,
+                videoformat: cameraSetting.videoformat || 'mpeg1video',
+            };
+
+            let playerOptions = {
+                dialog_divId:null,
+                canvas:null, 
+                videoformat:cameraStreamOptions.videoformat, 
+                audio:cameraStreamOptions.audio, 
+                audioformat:cameraStreamOptions.audioformat, 
+                width:cameraStreamOptions.width, 
+                height:cameraStreamOptions.height, 
+                videoBufferSize:4*1024*1024,
+                disableWebAssembly:true,
+            }
+
+            let cameraNode = {
+                siteId: siteId,
+                cameraId: cameraId,
+                cameraName: cameraName,
+                streamOptions: cameraStreamOptions,
+                playerOptions: playerOptions,
+            }
+
+            await videoLiveViewMore.ShowLiveViewOfCamera(cameraNode);
+		}
+
+
+        const intervalId = setInterval(()=>{
+            const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+            const now = Date.now();            
+            let snapshotIconsDiv = $('#snapshotIcons');
+            let aLinks = snapshotIconsDiv.find('a');
+            aLinks.each((index, link)=>{
+                const rawTimestamp = link.getAttribute('data-timestamp');
+                const linkTime = new Date(rawTimestamp).getTime();
+                if ( ! isNaN(linkTime) && (now - linkTime) > TWO_HOURS_MS){
+                    link.remove();
+                    console.log('link removed');
+                }
+            })   
+        }, 1000 * 30);
+
+        let flashTimer = null;
+        let isVisible = false;
+
+        function startFlash() {
+            // Prevent multiple timers
+            if (flashTimer !== null) return;
+
+            // Start flashing immediately
+            isVisible = true;
+            document.getElementById("redDot").style.display = "block";
+
+            flashTimer = setInterval(() => {
+                isVisible = !isVisible;
+
+                document.getElementById("redDot").style.display =
+                isVisible ? "block" : "none";
+
+            }, 1000);
+        }
+
+        function stopFlash() {
+            clearInterval(flashTimer);
+            flashTimer = null;
+            isVisible = false;
+
+            // Show an empty circle
+            document.getElementById("redDot").style.display = "none";
+        }        
+
+	</script>	
+	
+</head>
+<body>
+
+    <div id="monitor_panels" style="border:1px solid #ccc; width:100%;height:1600px">
+
+        <div id="liveview" style="width:100%;height:1600px; overflow-y:auto">
+
+        </div>
+
+        <div id="eventview_panels" style="border:1px solid #ccc; width:100%;height:1600px; overflow-y:auto">
+
+            <div id="snapshotIcons" style="display:flex;align-items:center;width:100%;height:150px;margin:1px"></div>
+ 
+            <div id="playbackDiv">
+                <div>
+                    <div id="event_alert">Event count in last two hours: <span id='eventcount'>0</span>
+                        <div class="circle"><div id="redDot" class="reddot"></div></div>             
+                    </div>
+                    <video id="videoShowRecording" autoplay controls="true" playsinline style="object-fit:fill; margin:2px">
+                        <source src="" type="video/mp4;charset=UTF-8">
+                        </source>
+                    </video>
+                </div>
+                <div>
+                    <img id="imgShowSnapshot" style="margin:2px"/>
+                </div>                
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

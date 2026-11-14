@@ -5,8 +5,7 @@
 
 ## Mini-NVR Demoshot:
 
-<img src="./public/mini-nvr-demo.png" align="left" width="800">
-<br clear="both" />
+![Settings Example](./public/mini-nvr-demo.png)
 
 ## Quick Setting Up and Start
 
@@ -90,6 +89,10 @@ You can resize and move live-view dialogs around the view port using your mouse 
 ### Motion and Object Detection
 
 Uses AI to detect motion objects and identify people or vehicles loitering around your property.
+
+### Live Monitor
+
+It combines live view, snapshot and footage view on one user interface. The snapshot and a flashing red dot are showing up immediately when an event is triggered and its footage review will be followed up in a few seconds.
 
 ### Storing Alert Footage
 

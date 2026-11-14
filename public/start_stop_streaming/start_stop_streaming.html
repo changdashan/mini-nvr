@@ -58,7 +58,7 @@
 				div_liveview.appendChild(canvas);
 				var url = getWebSocketUrl(token);;
 				
-				window.player = new JSMpeg.Player(url, {div:div_liveview, canvas: canvas, videoformat:streamOptions.videoformat, audio:streamOptions.audio, audioformat:streamOptions.audioformat, width:streamOptions.width, height:streamOptions.height, disableGl:false, disableWebAssembly:true, disableWebAudio:false, disableAudio:false});
+				window.player = new JSMpeg.Player(url, {div:div_liveview, canvas: canvas, videoformat:streamOptions.videoformat, audio:streamOptions.audio, audioformat:streamOptions.audioformat, width:streamOptions.width, height:streamOptions.height, disableGl:false, disableWebAssembly:false, disableWebAudio:false, disableAudio:false});
 								
 				window.msgdiv = document.createElement("div");
 				msgdiv.setAttribute("id", "msgdiv");

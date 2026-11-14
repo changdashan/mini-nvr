@@ -1,0 +1,12 @@
+.*
+*~
+bower.json
+*.html
+js/jquery-1.4.4.min.js
+splitter.jquery.json
+splitter.php
+test
+test.ts
+tsconfig.json
+node_modules
+package-lock.json

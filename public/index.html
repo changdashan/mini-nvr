@@ -370,6 +370,31 @@
                 width: 100%;
             }
         }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+
+            .camera-sidebar {
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 30;
+
+                width: min(62vw, 190px);
+                min-width: 0;
+
+                transform: translateX(-105%);
+                transition: transform 0.2s ease;
+            }
+
+            .camera-sidebar.is-open {
+                transform: translateX(0);
+            }
+
+            .demo-container {
+                width: 100%;
+            }
+        }
     </style>
 
 </head>
@@ -427,11 +452,11 @@
                 Live View One
             </a-->
 
-            <a href="/public/start_stop_streaming/start_stop_streaming.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Start or Stop Streaming">
-                Start & Stop
+            <a href="/public/start_stop_streaming/start_stop_streaming.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Restart streaming">
+                Restart
             </a>
 
-            <a href="/public/live_view_more/live_view_more.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+            <a href="/public/live_view_more/live_view_more.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Live view">
                 Live View
             </a> 
 
@@ -439,27 +464,31 @@
                 CMD Player
             </a--> 
 
-            <a href="/public/footage_reviewer/footageReviewer.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+            <a href="/public/footage_reviewer/footageReviewer.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Event footage review">
                 Event Review
             </a>  
 
-            <a href="/public/playbacklive/playbacklive.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+            <a href="/public/playbacklive/playbacklive.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Playback recordings">
                 Playback Recordings
             </a>             
 
-            <a href="/public/video_recorder/MediaRecorder.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+            <a href="/public/monitor/monitor.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Real time monitoring">
+                Monitor
+            </a>
+
+            <a href="/public/video_recorder/MediaRecorder.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Web recorder">
                 Web Recorder                
             </a>
 
-            <a href="/public/camera_settings/camera_settings.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+            <a href="/public/camera_settings/camera_settings.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="Camera settings">
                 Settings
             </a>
             
-            <a href="/public/license.html" class="nav-item" onclick="showLiveViewPortPage(event, this)">
+            <a href="/public/license.html" class="nav-item" onclick="showLiveViewPortPage(event, this)" title="License">
                 License                
             </a>              
 
-            <a href="/public/login.html" class="nav-item" onclick="logout()">
+            <a href="/public/login.html" class="nav-item" onclick="logout()" title="Logout">
                 Logout
             </a>
 
@@ -524,8 +553,14 @@
         const sidebarToggle = document.getElementById('cameraSidebarToggle');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
 
+        function isMobileSidebarMode() {
+            return window.matchMedia(
+                '(max-width: 600px), (orientation: landscape) and (max-height: 500px)'
+            ).matches;
+        }
+
         function syncMobileSidebarState() {
-            const isMobile = window.matchMedia('(max-width: 600px)').matches;
+            const isMobile = isMobileSidebarMode();
 
             if (!isMobile) {
                 cameraSidebar.classList.remove('is-open');
@@ -541,7 +576,7 @@
         }
 
         function toggleCameraSidebar() {
-            const isMobile = window.matchMedia('(max-width: 600px)').matches;
+            const isMobile = isMobileSidebarMode();
             if (!isMobile) {
                 return;
             }
@@ -644,7 +679,7 @@
 
             element.classList.add("active");
 
-            if (window.matchMedia('(max-width: 600px)').matches) {
+            if (isMobileSidebarMode()) {
                 cameraSidebar.classList.remove('is-open');
                 mainContainer.classList.remove('sidebar-open');
                 syncMobileSidebarState();
@@ -666,7 +701,7 @@
             url.searchParams.set("camera", selectedCameraId);
             url.searchParams.set("label", selectedCameraName);
 
-            if ( ! url.toString().includes("/live_view_more.html") )
+            if ( ! url.toString().includes("/live_view_more.html") &&  ! url.toString().includes("/monitor.html"))
                 viewPortFrame.src = url.toString();
             else {
                 await viewPortFrame.contentWindow.showLiveView(selectedSiteId, selectedCameraId, selectedCameraName);

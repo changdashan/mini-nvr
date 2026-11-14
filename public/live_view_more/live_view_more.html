@@ -68,26 +68,35 @@
 		async function showLiveView(siteId, cameraId, cameraName) {
             console.log("siteId=" + siteId + " cameraId=" + cameraId);
 
-            //default stream options is initialized in requestauthtoken.js
-            loadCamera(siteId, cameraId).then((camerasetting) => {
-                streamOptions.fps =camerasetting.fps;
-                streamOptions.width =camerasetting.width;
-                streamOptions.height =camerasetting.height;
-                streamOptions.b_v =camerasetting.b_v;
-                streamOptions.audio =camerasetting.audio;
-                streamOptions.audioformat =camerasetting.audioformat;
-                streamOptions.player =camerasetting.player;
-                streamOptions.videoformat =camerasetting.videoformat || 'mpeg1video';
-            });
+            let cameraSetting;
+            try {
+                cameraSetting = await loadCamera(siteId, cameraId);
+            } catch (error) {
+                console.error("Failed to load camera settings; live view was not started.", error);
+                alert("Failed to load camera settings. Please try again.");
+                return;
+            }
+
+            const cameraStreamOptions = {
+                ...streamOptions,
+                fps: cameraSetting.fps,
+                width: cameraSetting.width,
+                height: cameraSetting.height,
+                b_v: cameraSetting.b_v,
+                audio: cameraSetting.audio,
+                audioformat: cameraSetting.audioformat,
+                player: cameraSetting.player,
+                videoformat: cameraSetting.videoformat || 'mpeg1video',
+            };
 
             let playerOptions = {
                 dialog_divId:null,
                 canvas:null, 
-                videoformat:streamOptions.videoformat, 
-                audio:streamOptions.audio, 
-                audioformat:streamOptions.audioformat, 
-                width:streamOptions.width, 
-                height:streamOptions.height, 
+                videoformat:cameraStreamOptions.videoformat, 
+                audio:cameraStreamOptions.audio, 
+                audioformat:cameraStreamOptions.audioformat, 
+                width:cameraStreamOptions.width, 
+                height:cameraStreamOptions.height, 
                 videoBufferSize:4*1024*1024,
                 disableWebAssembly:true,
             }
@@ -96,7 +105,7 @@
                 siteId: siteId,
                 cameraId: cameraId,
                 cameraName: cameraName,
-                streamOptions: streamOptions,
+                streamOptions: cameraStreamOptions,
                 playerOptions: playerOptions,
             }
 
@@ -108,9 +117,9 @@
 </head>
 <body>
 	
-	<h3 align="center">Live View Port</h3>
-    <div id="nocameramsg"></div>
-    <div id="liveview">
+	<!--h3 align="center">Live View Port</h3>
+    <div id="nocameramsg"></div-->
+    <div id="liveview" style="width:2600px;height:1600px">
     </div>
 
 </body>

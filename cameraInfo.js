@@ -83,14 +83,13 @@ function getffmpegcmd (siteid, cameraid, player, ffmpegVisualOptions, streamServ
     let streamsource = camerainfo.streamsource;
     let ffmpegtemplate = getffmpegtemplate(SETTINGS.FFMPEGCMD_TEMPLATE_VS_PLAYER, player, streamsource);
     let ffmpegoptions = setffmpegoptions(ffmpegtemplate, camerainfo, ffmpegVisualOptions, streamServerSettings, token);
-    console.log(ffmpegoptions);
     let ffmpegcmd = ffmpegtemplate;
 
     for (const [key, value] of Object.entries(ffmpegoptions)) {
         let keyname = "${" + key + "}";   
         ffmpegcmd = ffmpegcmd.replace(keyname, value); 
     }
-    console.log(ffmpegcmd);
+
     return ffmpegcmd;
 }
 
