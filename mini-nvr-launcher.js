@@ -1,42 +1,50 @@
 
+const logMsg = require('./logger.js');
 const { spawn } = require('child_process');
 
-const MINI_NVR_JS = './mini-nvr-min.js';
-const SERVER_SECRET = process.argv[2];
-const SERVER_PORT = process.argv[3] || 8081;
+//const appFile = './mini-nvr-server.js';
 
 let restarting = false;
 
-function launch_mini_nvr() {
+function launch_mini_nvr(appFile, secret, port) {
 
     if (restarting) return;
 
     restarting = true;
 
-    console.log('Starting Mini-NVR...');
+    try {
+        logMsg('[launch_mini_nvr] Launching mini-nvr-min by spawning process...');
 
-    const mini_nvr_service = spawn(process.execPath, [MINI_NVR_JS, SERVER_SECRET, SERVER_PORT], {
-        stdio: 'inherit',
-        cwd: __dirname
-    });
+        const mini_nvr_service = spawn(process.execPath, [appFile, secret, port], {
+            stdio: 'inherit',
+            cwd: __dirname
+        });
 
-    restarting = false;
+        restarting = false;
 
-    mini_nvr_service.on('error', (err) => {
-        console.error('Failed to start Mini-NVR:', err);
-    });
+        mini_nvr_service.on('error', (err) => {
+            logMsg('[launch_mini_nvr] Failed to start Mini-NVR process: ' + err.message);
+        });
 
-    mini_nvr_service.on('exit', (code, signal) => {
+        mini_nvr_service.on('exit', (code, signal) => {
 
-        console.log(
-            `Mini-NVR exited. Code: ${code}, Signal: ${signal}`
-        );
+            logMsg(`[launch_mini_nvr] Mini-NVR exited. Code: ${code}, Signal: ${signal}`);
 
-        setTimeout(() => {
-            launch_mini_nvr();
-        }, 5000);
+            setTimeout(() => {
+                launch_mini_nvr(appFile, secret, port);
+            }, 10000);
 
-    });
+        });
+
+    } catch (err) {
+
+        logMsg('Error in spawning mini-nvr-min process: error: ' + err.message);
+        restarting = false;
+
+    }
 }
 
-launch_mini_nvr();
+const APP_FILE = process.argv[2];
+const SERVER_SECRET = process.argv[3];
+const SERVER_PORT = process.argv[4];
+launch_mini_nvr(APP_FILE, SERVER_SECRET, SERVER_PORT);
