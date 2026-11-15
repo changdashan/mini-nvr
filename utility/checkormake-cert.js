@@ -7,7 +7,7 @@ const getLocalIP = require('./get-local-network-ip.js');
 
 //-------------------------------------------------------------------------------------------------
 function checkOrInstallCa(){
-
+	console.log("\r\nchecking or installing rootCA.pem...");
     const ca_filefolder = mkcert.carootSync();
     console.log("mkcert rootCA file folder: " + ca_filefolder);
     if (ca_filefolder == null || ca_filefolder === ""){    
@@ -18,6 +18,7 @@ function checkOrInstallCa(){
         const newly_installed_ca_path =  path.join(newly_installed_ca_filefolder, 'rootCA.pem');  
         return newly_installed_ca_path  
     } else {
+		console.log("no need to create/install rootCA.pem as exiting one found.");
         const foundCaFilePath = path.join(ca_filefolder, 'rootCA.pem');
         return foundCaFilePath
     }
@@ -26,6 +27,7 @@ function checkOrInstallCa(){
 //-------------------------------------------------------------------------------------------------
 function generateKeyAndCert(local_ip){
 
+	console.log("\r\nchecking or generating key and cert...");
     const keyFilePath = `../sslcert/${local_ip}-key.pem`;
     const crtFilePath = `../sslcert/${local_ip}.pem`;
 
@@ -50,7 +52,7 @@ async function main(){
 
     const ca_filepath = checkOrInstallCa();
     if (fs.existsSync(ca_filepath)){
-        console.log("copying file: " + ca_filepath);
+        console.log("copying file from: " + ca_filepath);
         fs.copyFileSync(ca_filepath, '../rootCA.pem');
         fs.copyFileSync(ca_filepath, '../streampump/rootCA.pem');
     }
@@ -60,6 +62,7 @@ async function main(){
         generateKeyAndCert(localIp);
     }
 
+	console.log("\r\nupdating server_settings.js for SSL_KEY_FILE and SSL_CERT_FILE");
     const updateFile = require('./update-file.js');
     let searchForLine = 'const SSL_KEY_FILE = ';
     let newLine = searchForLine + `'./sslcert/${localIp}-key.pem';`;
@@ -69,7 +72,9 @@ async function main(){
 
     searchForLine = 'const SSL_CERT_FILE = ';
     newLine = searchForLine + `'./sslcert/${localIp}.pem';`; 
-    updateFile(filepath, searchForLine, newLine);         
+    updateFile(filepath, searchForLine, newLine); 
+	
+	console.log("Done with preparing for running mini-nvr.");
 }
 
 main();

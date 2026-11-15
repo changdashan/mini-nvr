@@ -7,7 +7,7 @@ const server_settings = require('../server_settings.js');
 //checed 
 function preparing(){
 
-    const result = spawnSync('node ./checkormake-cert.js', {shell: true});
+    const result = spawnSync('node ./checkormake-cert.js', {shell: true, stdio: 'inherit'});
 
     const siteId = 'my_home';
     const avDevices = getAVDevices();
@@ -18,13 +18,13 @@ function preparing(){
             const videoDevice = avDevices.video_devices[i];
             console.log('video device:' + videoDevice);
             const camSetting = camerainfo.getCameraSettingByVideoDevice(server_settings.SITE_CAMERAS, siteId, videoDevice);
-            if (camSetting == null || camSetting.cameraId == undefined){
+            if (camSetting == null || camSetting.cameraid == undefined){
                 console.log('The video device not found on the site: ' + siteId);
                 const cameraId = `my_web_camera${cam_idx}`;
                 const cameraLabel = `My Web Camera${label_idx}`;
                 addWebcamToMyHomeSite_in_server_settings(siteId, cameraId, cameraLabel, videoDevice);                
             } else {
-                console.log(`The video device found as cameraId ${camSetting.cameraId} on the site: ${siteId} `);
+                console.log(`The video device found as cameraId ${camSetting.cameraid} on the site: ${siteId} `);
             }
             cam_idx = `_${i+1}`;
             label_idx = ` ${i+1}`;            
