@@ -18,7 +18,7 @@ function preparing(){
             const videoDevice = avDevices.video_devices[i];
             console.log('video device:' + videoDevice);
             const camSetting = camerainfo.getCameraSettingByVideoDevice(server_settings.SITE_CAMERAS, siteId, videoDevice);
-            if (camSetting == null){
+            if (camSetting == null || camSetting.cameraId == undefined){
                 console.log('The video device not found on the site: ' + siteId);
                 const cameraId = `my_web_camera${cam_idx}`;
                 const cameraLabel = `My Web Camera${label_idx}`;
