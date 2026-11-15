@@ -17,7 +17,7 @@ Go to the [official Node.js website](<https://nodejs.org/en/download>) to downlo
 
 #### 2\. Download and Unzip Mini-NVR
 
-Download the zip file from this GitHub and unzip it into a folder, for example, c:\mini-nvr<br/>
+Download the zip file from this GitHub and unzip it into a folder, for example, c:\mini-nvr-main<br/>
 
 You'd better try it on a computer with a built-in or USB camera.
 
@@ -25,18 +25,18 @@ You'd better try it on a computer with a built-in or USB camera.
 
 #### 1\. Preparing (Run Once)
 
-Open a command prompt, change to the `mini-nvr/utility` folder, and execute:
+Open a command prompt, change to the `C:\mini-nvr-main\utility` folder, and execute:
 
 ```bat
-C:\mini-nvr\utility> preparing.bat
+C:\mini-nvr-main\utility> preparing.bat
 ```
 
 #### 2\. Start Mini-NVR Server
 
-Change back to c:\mini-nvr, and execute:
+Change back to c:\mini-nvr-main, and execute:
 
 ```bat
-C:\mini-nvr> start.bat
+C:\mini-nvr-main> start.bat
 ```
 
 ### 3\. Logon to mini-nvr web app:
@@ -180,10 +180,10 @@ If it cannot, add the Node.js installation folder to your system environment `PA
 
 ### 2\. Download and Unzip Mini-NVR
 
-Download Mini-NVR from its GitHub repository and unzip it into a folder, for example:
+Download Mini-NVR from its GitHub repository and unzip it into a folder (or default to mini-nvr-main), for example:
 
 ```text
-C:\mini-nvr
+C:\mini-nvr-main
 ```
 
 The downloaded package contains all the necessary components to run Mini-NVR.
@@ -194,10 +194,10 @@ The downloaded package contains all the necessary components to run Mini-NVR.
 
 ### 1\. Preparing (Run Once)
 
-Open a command prompt, change to the `mini-nvr/utility` folder, and execute:
+Open a command prompt, change to the `C:\mini-nvr-main\utility` folder, and execute:
 
 ```bat
-C:\mini-nvr\utility> preparing.bat
+C:\mini-nvr-main\utility> preparing.bat
 ```
 
 You only need to run this utility once. There is no need to execute it every time you start Mini-NVR.
@@ -217,7 +217,7 @@ The utility performs two tasks:
 Open a command prompt, change to the Mini-NVR installation folder, and execute:
 
 ```bat
-C:\mini-nvr> start.bat
+C:\mini-nvr-main> start.bat
 ```
 
 This automatically launches:
