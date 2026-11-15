@@ -109,7 +109,7 @@ const SITE_CAMERAS = [
         "audiodevice":"",      
         "streamsource":"rtsp", 
         "cameraip":"192.168.1.168", 
-        "rtsp":"rtsp://[cam_user]:[cam_pwd]@[cam_ip]:554/stream0", 
+        "rtsp":"rtsp://dchang:X142536N@192.168.1.168:554/stream0", 
         "rtspport":"554", 
         "rtspuser":"", 
         "rtsppwd":"", 
@@ -222,11 +222,11 @@ const SITE_CAMERAS = [
 const FFMPEGCMD_TEMPLATE_VS_PLAYER = [
     {
         "playerid":"jsmpeg","streamsource":"video", "ffmpegcmd":
-        "ffmpeg -f dshow -rtbufsize 1024M -thread_queue_size 1024 -i video=\"${VIDEODEVICE}\"${AUDIODEVICE} -vf \"drawtext=file='./DejaVuSans.ttf':text='%{localtime}':fontcolor=white:fontsize=12:x=10:y=10\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v mpeg1video -b:v ${B_V} ${AUDIOOPTIONS} ${NOSTATS} -tune zerolatency -f mpegts ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+        "ffmpeg -f dshow -rtbufsize 1024M -thread_queue_size 1024 -i video=\"${VIDEODEVICE}\"${AUDIODEVICE} -vf \"drawtext=fontfile='./DejaVuSans.ttf':text='%{localtime}':fontcolor=white:fontsize=12:x=10:y=10\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v mpeg1video -b:v ${B_V} ${AUDIOOPTIONS} ${NOSTATS} -tune zerolatency -f mpegts ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
     },
     {
         "playerid":"jsmpeg","streamsource":"rtsp","ffmpegcmd":
-        "ffmpeg -i ${RTSP} -vf \"drawtext=file='./DejaVuSans.ttf':text='%{localtime}':fontcolor=white:fontsize=24:x=10:y=10\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v mpeg1video -b:v ${B_V} ${AUDIOOPTIONS} ${NOSTATS} -f mpegts ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+        "ffmpeg -i ${RTSP} -vf \"drawtext=fontfile='./DejaVuSans.ttf':text='%{localtime}':fontcolor=white:fontsize=24:x=10:y=10\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v mpeg1video -b:v ${B_V} ${AUDIOOPTIONS} ${NOSTATS} -f mpegts ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
     },
     {
         "playerid":"h264","streamsource":"video","ffmpegcmd":
