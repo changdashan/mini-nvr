@@ -75,7 +75,7 @@ const SITE_CAMERAS = [
 		"audioformat":"mp2",
         "nostats":"-nostats",
 		"player":"jsmpeg",
-        "enabled":true,       
+        "enabled":false,       
     },
 
     {  
@@ -109,7 +109,7 @@ const SITE_CAMERAS = [
         "audiodevice":"",      
         "streamsource":"rtsp", 
         "cameraip":"192.168.1.168", 
-        "rtsp":"rtsp://dchang:X142536N@192.168.1.168:554/stream0", 
+        "rtsp":"rtsp://[cam_user]:[cam_pwd]@[cam_ip]:554/stream0", 
         "rtspport":"554", 
         "rtspuser":"", 
         "rtsppwd":"", 
@@ -121,7 +121,7 @@ const SITE_CAMERAS = [
 		"audioformat":"mp2",
         "nostats":"-nostats",        
 		"player":"jsmpeg", 
-        "enabled":true,                               
+        "enabled":false,                               
     },  
 
     {  
