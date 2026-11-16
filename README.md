@@ -1,11 +1,8 @@
 
 # Mini-NVR
 
-**A simple, lightweight home video surveillance system**
-
-## Mini-NVR Demoshot:
-
-![Settings Example](./public/mini-nvr-demo.png)
+**A simple, lightweight home video surveillance**<br/><br/>
+Turn your laptop/desktop an NVR and CCTV Monitor under your control.
 
 ## Quick Setting Up and Start
 
@@ -41,9 +38,13 @@ C:\mini-nvr-main> start.bat
 
 ### 3\. Logon to mini-nvr web app:
 When Chrome opens up the login page, enter 'admin' and 'admin!23' to logon.<br/>
-If you have a built-in or USB camera with your computer, the first camera should start to work. Select the Monitor tab on the top menu and the first camera 
-on the side menu, you should see live view of that camera. If you don't see it, please follow the instructions of documentation below. 
+If you have a built-in or USB camera with your computer, the first camera should start to work. Select the Live View on the top menu and the first camera 
+on the side bar, you should see live view of that camera. If you don't see it, please follow the instructions of documentation below. 
 
+## Mini-NVR Demo Screenshots:
+
+![Settings Example](./public/mini-nvr-demo.png)
+![Settings Example](./public/monitor.png)
 ---
 
 ## Table of Contents
