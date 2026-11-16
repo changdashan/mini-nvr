@@ -729,7 +729,7 @@
 
         //-----------------------------------------------------------------------------------------
         async function getCameras(token){
-            const endPointUrl = '/public/sitecameras' + '?taken=' + token;
+            const endPointUrl = '/public/sitecameras' + '?token=' + token;
             const sitecameras = await getData(endPointUrl);
             let htmlstr = '';
             let cameralistDiv = document.getElementById('cameralist');
