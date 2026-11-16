@@ -1,10 +1,9 @@
 
 # Mini-NVR
 
-**A simple, lightweight home video surveillance**<br/><br/>
-Turn your laptop/desktop an NVR and CCTV Monitor under your control.
+A simple, lightweight NVR that can turn your laptop/desktop a home video surveillance under your control.
 
-## Quick Setting Up and Start
+## Quick Setup and Start
 
 ### Installations
 
