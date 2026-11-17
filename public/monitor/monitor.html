@@ -252,6 +252,10 @@
                 if ( ! isNaN(linkTime) && (now - linkTime) > TWO_HOURS_MS){
                     link.remove();
                     console.log('link removed');
+                    let event_cnt = document.getElementById('eventcount');
+                    let eventcount = parseInt(event_cnt.innerText);
+                    eventcount --;
+                    event_cnt.innerText = eventcount;                    
                 }
             })   
         }, 1000 * 30);
@@ -302,7 +306,7 @@
  
             <div id="playbackDiv">
                 <div>
-                    <div id="event_alert">Events in last two hours: <span id='eventcount'>0</span>
+                    <div id="event_alert">Events in last two hours:&nbsp; <span id='eventcount'>0</span>
                         <div class="circle"><div id="redDot" class="reddot"></div></div>
                         <audio id="audio_beep" ></audio>
                         <input type="checkbox" id="chkbeep"><label for="chkbeep">&nbsp;Beep</label>
