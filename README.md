@@ -1,7 +1,7 @@
 
 # Mini-NVR
 
-A simple, lightweight NVR that can turn your laptop/desktop a home video surveillance under your control.
+A simple, lightweight Network Video Recorder (NVR) that can turn your laptop/desktop a home video surveillance under your control.
 
 ## Quick Setup and Start
 
@@ -13,9 +13,7 @@ Go to the [official Node.js website](<https://nodejs.org/en/download>) to downlo
 
 #### 2\. Download and Unzip Mini-NVR
 
-Download the zip file from this GitHub and unzip it into a folder, for example, c:\mini-nvr-main<br/>
-
-You'd better try it on a computer with a built-in or USB camera.
+Download the zip file from this GitHub and unzip it into a folder c:\mini-nvr-main<br/>
 
 ### Start Mini-NVR
 
@@ -37,8 +35,8 @@ C:\mini-nvr-main> start.bat
 
 ### 3\. Logon to mini-nvr web app:
 When Chrome opens up the login page, enter 'admin' and 'admin!23' to logon.<br/>
-If you have a built-in or USB camera with your computer, the first camera should start to work. Select the Live View on the top menu and the first camera 
-on the side bar, you should see live view of that camera. If you don't see it, please follow the instructions of documentation below. 
+If you have a built-in or USB camera with your computer, it should be the first camera on the side bar. Select the Monitor or Live View tab on the top menu bar and then the first camera 
+from the side bar. If you see the live view of the camera, congratulations! your mini-nvr is working. If you don't see it, please follow the instructions of documentation below. 
 
 ## Mini-NVR Demo Screenshots:
 
@@ -68,7 +66,7 @@ You can run it on an ordinary Windows laptop or desktop computer and use its bui
 
 You can make Mini-NVR accessible over the internet by setting up a portforwarding on your home WiFi router, allowing you to monitor your home anytime, from anywhere with a browser.
 
-These essential surveillance and monitoring capabilities may meet your needs without the additional cost of a dedicated NVR system or subscription fees.
+Its essential surveillance and monitoring features may meet your needs without additional cost of a dedicated NVR system or subscription fees.
 
 **Most importantly, Mini-NVR puts you in control of your data and privacy.** Your recordings, snapshots, and other surveillance data are stored on your own computer rather than in a third-party cloud service, giving you greater control over who can access them.
 
@@ -204,13 +202,15 @@ You only need to run this utility once. There is no need to execute it every tim
 
 The utility performs two tasks:
 
-1. **Generates and installs TLS certificates**Generates a self-signed TLS root CA certificate (`rootCA.pem`), together with the required private key and certificate files, in the `./sslcert` folder.
-2. **Detects locally connected video cameras**Detects video devices connected to the current computer, including built-in and USB-connected cameras.
-   If cameras are detected, the utility adds corresponding entries to the `SITE_CAMERAS` list in `server_setting.js`.
-   Each automatically registered camera receives:
-   If additional cameras are found, an incremental index is appended to their camera IDs and labels.
+1. **Generates and installs TLS certificates** - It generates a self-signed TLS root CA certificate (`rootCA.pem`), together with the required private key and certificate files, and place them in the `./sslcert` folder.
+2. **Detects locally connected video cameras** - it detects video devices connected to the current computer, including built-in and USB-connected cameras.
+   If cameras are found, the utility adds corresponding entries to the `SITE_CAMERAS` list in `server_setting.js`.
+   Each automatically registered camera will be given: 
+
    - Camera ID: `my_web_camera`
    - Label: `My Web Camera`
+
+    Additional camera will be suffixed an index number 1 or 2 to differentiate with other.
 
 ### 2\. Start Mini-NVR Server
 
@@ -222,8 +222,8 @@ C:\mini-nvr-main> start.bat
 
 This automatically launches:
 
-- The StreamPump service.
-- Chrome, opening the `login.html` page.
+- streampump service.
+- Chrome and the `login.html` page.
 
 On the login page, enter the following default credentials:
 
