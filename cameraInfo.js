@@ -17,7 +17,7 @@ function getcamerainfo(sitecameras, siteid, cameraid){
 function getCameraSettingByVideoDevice(sitecameras, siteId, videoDevice){
     let caminfo = null;
     for (const camerainfo of sitecameras){
-        if (camerainfo.siteid == siteId && camerainfo.videodevice == videoDevice){
+        if ( camerainfo.siteid == siteId && camerainfo.videodevice == videoDevice && camerainfo.enabled == true ) {
             console.log(`siteid: ${camerainfo.siteid}, cameraid: ${camerainfo.cameraid}, videodevice: ${camerainfo.videodevice}`);
             caminfo = camerainfo;
             break;
@@ -83,13 +83,14 @@ function getffmpegcmd (siteid, cameraid, player, ffmpegVisualOptions, streamServ
     let streamsource = camerainfo.streamsource;
     let ffmpegtemplate = getffmpegtemplate(SETTINGS.FFMPEGCMD_TEMPLATE_VS_PLAYER, player, streamsource);
     let ffmpegoptions = setffmpegoptions(ffmpegtemplate, camerainfo, ffmpegVisualOptions, streamServerSettings, token);
+    //console.log(`ffmpegoptions: ${JSON.stringify(ffmpegoptions)}`);
     let ffmpegcmd = ffmpegtemplate;
 
     for (const [key, value] of Object.entries(ffmpegoptions)) {
         let keyname = "${" + key + "}";   
         ffmpegcmd = ffmpegcmd.replace(keyname, value); 
     }
-
+    //console.log(ffmpegcmd);
     return ffmpegcmd;
 }
 
