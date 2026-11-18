@@ -102,6 +102,10 @@
             const playbackDiv = document.getElementById("playbackDiv");
             const video_showrecording = document.getElementById('videoShowRecording');
             const imgShowSnapshot = document.getElementById('imgShowSnapshot');
+            const audio_beep = document.getElementById('audio_beep');
+            const chkbeep = document.getElementById('chkbeep');
+            let beepUnlocked = false;
+
             video_showrecording.style.display = "none";
             //playbackDiv.style.display = "none";
             //imgShowSnapshot.style.display = "none";
@@ -113,6 +117,32 @@
                 console.error("Auth token is missing. Cannot establish WebSocket connection.");
                 return;
             }
+            audio_beep.preload = 'auto';
+            audio_beep.src = './beep2.mp3?token=' + encodeURIComponent(token);
+
+            chkbeep.addEventListener('change', () => {
+                if (!chkbeep.checked) {
+                    beepUnlocked = false;
+                    audio_beep.pause();
+                    audio_beep.currentTime = 0;
+                    return;
+                }
+
+                audio_beep.currentTime = 0;
+                audio_beep.play().then(() => {
+                    if (chkbeep.checked) {
+                        beepUnlocked = true;
+                    } else {
+                        audio_beep.pause();
+                        audio_beep.currentTime = 0;
+                    }
+                }).catch((err) => {
+                    beepUnlocked = false;
+                    chkbeep.checked = false;
+                    console.error("Could not enable the event beep. Please try again.", err);
+                });
+            });
+
             const socket = new WebSocket(`${getWebSocketUrl_2(token, "anycamera")}/event`);
 
             // 1. Connection opened
@@ -129,8 +159,6 @@
                     //console.log("Message from server:", data);
                     //const timestamp = new Date().toLocaleString();
 
-                    const chkbeep = document.getElementById("chkbeep");
-
                     const clipname = data.filename;
                     const clipurl = '/' + data.relativePath; 
                     const snapshot_url = clipurl.replaceAll(".mp4", ".jpg");
@@ -138,8 +166,14 @@
                     const status = data.status;
                     if (status === 'eventtriggered'){
                         startFlash();
-                        if (chkbeep.checked) 
-                            audio_beep.play();
+                        if (chkbeep.checked && beepUnlocked) {
+                            audio_beep.currentTime = 0;
+                            audio_beep.play().catch((err) => {
+                                beepUnlocked = false;
+                                chkbeep.checked = false;
+                                console.error("Could not play the event beep.", err);
+                            });
+                        }
                         const url = new URL(snapshot_url, window.location.origin);                                  
                         videoLiveViewMore.playRecordedClip(url.pathname);
                         return;
@@ -163,8 +197,8 @@
                     event_cnt.innerText = eventcount;
                     stopFlash();
                     if (chkbeep.checked) {
-                        audio_beep.pause();
-                        audio_beep.currentTime = 0;
+                        //audio_beep.pause();
+                        //audio_beep.currentTime = 0;
                     }
 
                     setTimeout(() => {
@@ -185,9 +219,6 @@
             socket.addEventListener("close", (event) => {
                 console.log(`Connection closed (Code: ${event.code})`);
             });
-
-            const audio_beep = document.getElementById('audio_beep'); 
-            audio_beep.src = './beep3.wav?token=' + token;           
 
         });
 
@@ -254,7 +285,7 @@
                     console.log('link removed');
                     let event_cnt = document.getElementById('eventcount');
                     let eventcount = parseInt(event_cnt.innerText);
-                    eventcount --;
+                    eventcount--;
                     event_cnt.innerText = eventcount;                    
                 }
             })   
@@ -309,7 +340,7 @@
                     <div id="event_alert">Events in last two hours:&nbsp; <span id='eventcount'>0</span>
                         <div class="circle"><div id="redDot" class="reddot"></div></div>
                         <audio id="audio_beep" ></audio>
-                        <input type="checkbox" id="chkbeep"><label for="chkbeep">&nbsp;Beep</label>
+                        <input type="checkbox" id="chkbeep" value="yes"><label for="chkbeep">&nbsp;Beep</label>
                     </div>
                     <video id="videoShowRecording" autoplay controls="true" playsinline style="object-fit:fill; margin:2px">
                         <source src="" type="video/mp4;charset=UTF-8">
