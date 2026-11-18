@@ -68,14 +68,14 @@ async function deleteOldFiles(folderPath, days) {
 //module.exports = { deleteOldFiles }
 
 async function main() {
-    const days_of_keeping_footages = settings.DAYS_OF_KEEPING_EVENT_FOOTAGES;
+    const footage_retention_days = settings.FOOTAGE_RETENTION_DAYS;
     let folder = path.join(__dirname, '/public/footage_reviewer/motion_footages');
-    let count = await deleteOldFiles(folder, days_of_keeping_footages);
+    let count = await deleteOldFiles(folder, footage_retention_days);
     console.log(`Cleanup completed for ${folder}. ${count} files deleted.`);
 
-    const days_of_keeping_recording_files = settings.DAYS_OF_KEEPING_RECORDING_FILES;
+    const recording_retention_days = settings.RECORDING_RETENTION_DAYS;
     folder = path.join(__dirname, '/srvr_recordings/');
-    count = await deleteOldFiles(folder, days_of_keeping_recording_files);
+    count = await deleteOldFiles(folder, recording_retention_days);
     console.log(`Cleanup completed for ${folder}. ${count} files deleted.`);    
 }
 
