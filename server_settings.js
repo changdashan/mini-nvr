@@ -1,7 +1,9 @@
 const RUNPROTOCOL = "https";
 const LAUNCH_STREAMPUMP_SERVICE = true;
-const DAYS_OF_KEEPING_RECORDING_FILES = 3;
-const DAYS_OF_KEEPING_EVENT_FOOTAGES = 7;
+
+const CONTINUOUS_RECORDING = true;
+const RECORDING_RETENTION_DAYS = 5;
+const FOOTAGE_RETENTION_DAYS = 30;
 
 const SENDING_ALERT_EMAIL = false;
 
@@ -52,6 +54,12 @@ const CV_OPTIONS = {
     preseconds:2,
     postseconds:8,
     executionprovider:'cpu', //'dml',
+    targetclasses: {
+        0: "person",
+        2: "car",
+        15: "cat",
+        16: "dog"
+    },	
     object_confidence_threshold:0.45,
 }
 
@@ -283,6 +291,7 @@ module.exports = {
     SENDING_ALERT_EMAIL:SENDING_ALERT_EMAIL,
     EMAILINFO:EMAILINFO,
     CV_OPTIONS:CV_OPTIONS,
-    DAYS_OF_KEEPING_RECORDING_FILES:DAYS_OF_KEEPING_RECORDING_FILES,
-    DAYS_OF_KEEPING_EVENT_FOOTAGES:DAYS_OF_KEEPING_EVENT_FOOTAGES,
+    CONTINUOUS_RECORDING:CONTINUOUS_RECORDING,
+    RECORDING_RETENTION_DAYS:RECORDING_RETENTION_DAYS,
+    FOOTAGE_RETENTION_DAYS:FOOTAGE_RETENTION_DAYS,
 }
