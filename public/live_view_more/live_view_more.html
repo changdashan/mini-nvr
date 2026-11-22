@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Multiple Camera Live Views</title>
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">	
+	<link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../js/libs/jquery-ui-1.14.2/jquery-ui.min.css"> 
+
+    <style>
+        .ui-dialog .ui-dialog-content {
+            overflow: hidden !important;
+            padding-left: 0px !important;
+            padding-top: 0px !important;            
+        }
+
+        .ui-dialog .ui-dialog-titlebar span.ui-dialog-title {
+            font-size: 12px !important;
+            font-weight: normal;
+        }
+        
+    </style>
+
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/external/jquery/jquery-4.0.0.min.js"></script>
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/jquery-ui.min.js"></script>     
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/jquery.ui.touch-punch.min.js"></script>    
+
+    <script type="text/javascript" src="../js/libs/jsmpeg/jsmpeg.min.js"></script>
+
+    <script type="text/javascript" src="../js/libs/h264/h264.js"></script>
+    <script type="text/javascript" src="../js/libs/h264/h264videoplayer.min.js"></script>        
+        
+    <!--acc audio player package-->
+    <script type="text/javascript" src="../js/libs/aac/aurora.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faac.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faurora-websocket.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faacaudio.js"></script>
+
+	<script type="text/javascript" src="../requestauthtoken.js"></script>
+	<script type="text/javascript" src="live_view_more.min.js"></script>
+        		
+	<script type="text/javascript">
+
+        let videoLiveViewMore = VideoLiveViewMore;
+		//-----------------------------------------------------------------------------------------
+		async function showLiveView(siteId, cameraId, cameraName) {
+            console.log("siteId=" + siteId + " cameraId=" + cameraId);
+
+            let cameraSetting;
+            try {
+                cameraSetting = await loadCamera(siteId, cameraId);
+            } catch (error) {
+                console.error("Failed to load camera settings; live view was not started.", error);
+                alert("Failed to load camera settings. Please try again.");
+                return;
+            }
+
+            let videoformat = 'mpeg1video';
+            if (cameraSetting.player == 'jsmpeg-h264') videoformat = 'h264';
+
+            const cameraStreamOptions = {
+                ...streamOptions,
+                fps: cameraSetting.fps,
+                width: cameraSetting.width,
+                height: cameraSetting.height,
+                b_v: cameraSetting.b_v,
+                audio: cameraSetting.audio,
+                audioformat: cameraSetting.audioformat,
+                player: cameraSetting.player,
+                videoformat: videoformat,
+            };
+
+            let playerOptions = {
+                dialog_divId:null,
+                canvas:null, 
+                videoformat: cameraStreamOptions.videoformat, 
+                audio:cameraStreamOptions.audio, 
+                audioformat:cameraStreamOptions.audioformat, 
+                width:cameraStreamOptions.width, 
+                height:cameraStreamOptions.height, 
+                videoBufferSize:4*1024*1024,
+                disableWebAssembly:true,
+            }
+
+            let cameraNode = {
+                siteId: siteId,
+                cameraId: cameraId,
+                cameraName: cameraName,
+                streamOptions: cameraStreamOptions,
+                playerOptions: playerOptions,
+            }
+
+            await videoLiveViewMore.ShowLiveViewOfCamera(cameraNode);
+		}
+
+	</script>	
+	
+</head>
+<body>
+	
+	<!--h3 align="center">Live View Port</h3>
+    <div id="nocameramsg"></div-->
+    <div id="liveview" style="width:2600px;height:1600px">
+    </div>
+
+</body>
+</html>

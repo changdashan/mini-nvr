@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Restart Streaming</title>
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">		
+		<link rel="stylesheet" href="../style.css">
+
+		<!--jsmpeg player package-->
+		<script type="text/javascript" src="../js/libs/jsmpeg/jsmpeg.min.js"></script> 
+
+		<script type="text/javascript" src="../js/libs/h264/h264.js"></script>
+        <script type="text/javascript" src="../js/libs/h264/h264videoplayer.min.js"></script>        
+		 
+		<!--aac audio player package-->
+		<script type="text/javascript" src="../js/libs/aac/aurora.js"></script>
+		<script type="text/javascript" src="../js/libs/aac/faac.js"></script>
+		<script type="text/javascript" src="../js/libs/aac/faurora-websocket.js"></script>
+		<script type="text/javascript" src="../js/libs/aac/faacaudio.js"></script>
+
+		<script type="text/javascript" src="../requestauthtoken.js"></script>
+	    <script type="text/javascript" src="start_stop_streaming.min.js"></script>	
+	 
+	</head>
+	
+	<body>
+
+		<div class="buttongroup">
+			<button type="button" onclick="startStreaming()">Restart Streaming</button>
+			<button type="button" onclick="stopStreaming()">Stop Streaming</button>
+		</div>
+
+	</body>
+</html>

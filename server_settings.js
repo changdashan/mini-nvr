@@ -1,0 +1,304 @@
+const RUNPROTOCOL = "https";
+const LAUNCH_STREAMPUMP_SERVICE = true;
+
+const CONTINUOUS_RECORDING = true;
+const RECORDING_RETENTION_DAYS = 5;
+const FOOTAGE_RETENTION_DAYS = 30;
+
+const SENDING_ALERT_EMAIL = false;
+
+const RABBITMQ_USER = 'guest';
+const RABBITMQ_PASSWORD = 'guest';
+
+const SSL_KEY_FILE = './sslcert/192.168.1.167-key.pem';
+const SSL_CERT_FILE = './sslcert/192.168.1.167.pem';
+
+const DEFAULT_TOKEN_EXPIRY_SECONDS = 30000;
+const DEFAULT_LOGIN_EXPIRY_SECONDS = 60 * 60 * 24;
+
+const DEFAULT_AUDIENCE = 'stream-server';
+
+
+//-------------------------------------------------------------------------------------------------
+const CLIENTSECRETS = {
+    app1: 'app1-secret',
+    app2: 'app2-secret',
+    liveviewapp: 'liveviewapp-secret',
+    streampump: 'streampump-secret',
+    ffmpegservice: 'ffmpeg-service-secret'
+};
+
+//-------------------------------------------------------------------------------------------------
+const USERACCOUNTS = {
+    admin: {
+        password: 'admin!23',
+        roles: ['administrators'],
+    },
+    viewer: {
+        password: 'Viewer_Password!23',
+        roles: ['viewers'],
+    },
+    streampump_user: {
+        password: 'StreamPump_Password!23',
+        roles:['']
+    }
+};
+
+//-------------------------------------------------------------------------------------------------
+const CV_OPTIONS = {
+    width:640,
+    height:480,
+    fps:15, 
+    mincontourarea:500,
+    motionframesrequired:5, 
+    preseconds:2,
+    postseconds:8,
+    executionprovider:'cpu', //'dml',
+    targetclasses: {
+        0: "person",
+        2: "car",
+        15: "cat",
+        16: "dog"
+    },
+    object_confidence_threshold:0.45,
+}
+
+//-------------------------------------------------------------------------------------------------
+const SITE_CAMERAS = [  
+    {  
+        "siteid":"my_home", 
+        "cameraid": "my_web_camera_1", 
+        "label":"My Web Camera 1", 
+        "videodevice":"Logi C270 HD WebCam", 
+        "audiodevice":"",
+        "streamsource":"video", 
+        "cameraip":"", 
+        "rtsp":"", 
+        "rtspport":"", 
+        "rtspuser":"", 
+        "rtsppwd":"", 
+		"fps":25,
+		"width":1280,
+		"height":720,
+		"b_v": "2M",
+		"audio": false,
+		"audioformat":"mp2",
+        "nostats":"-nostats",
+		"player":"jsmpeg",
+        "enabled":false,
+    },
+
+    {  
+        "siteid":"my_home", 
+        "cameraid": "my_web_camera", 
+        "label":"My Web Camera", 
+        "videodevice":"Integrated Webcam", 
+        "audiodevice":"",
+        "streamsource":"video", 
+        "cameraip":"", 
+        "rtsp":"", 
+        "rtspport":"", 
+        "rtspuser":"", 
+        "rtsppwd":"", 
+		"fps":25,
+		"width":1280,
+		"height":720,
+		"b_v": "2M",
+		"audio": false,
+		"audioformat":"mp2",
+        "nostats":"-nostats",
+		"player":"jsmpeg",
+        "enabled":false,        
+    }, 
+    
+    {
+        "siteid":"my_home",
+        "cameraid":"front_door_cam", 
+        "label":"Front Door Camera", 
+        "videodevice":"",
+        "audiodevice":"",      
+        "streamsource":"rtsp", 
+        "cameraip":"192.168.1.168", 
+        "rtsp":"rtsp://dchang:X142536N@192.168.1.168:554/stream0", 
+        "rtspport":"554", 
+        "rtspuser":"", 
+        "rtsppwd":"", 
+		"fps":25,
+		"width":1280,
+		"height":720,
+		"b_v": "2M",
+		"audio": false,
+		"audioformat":"mp2",
+        "nostats":"-nostats",        
+		"player":"jsmpeg",
+        "enabled":false,
+    },  
+
+    {  
+        "siteid": "my_home", 
+        "cameraid" :"my_desktop_cam", 
+        "label":"My Desktop Cam", 
+        "videodevice":"Brio 100",
+        "audiodevice":"",
+        "streamsource":"video", 
+        "cameraip":"", 
+        "rtsp":"", 
+        "rtspport":"", 
+        "rtspuser":"", 
+        "rtsppwd":"",
+		"fps":25,
+		"width":1280,
+		"height":720,
+		"b_v": "2M",
+		"audio": false,
+		"audioformat":"mp2",
+        "nostats":"-nostats",        
+		"player":"jsmpeg",
+        "enabled":false,                         
+    },
+
+    {
+        "siteid":"my_home",
+        "cameraid":"back_yard_cam", 
+        "label":"Back Yard Camera", 
+        "videodevice":"",
+        "audiodevice":"",
+        "streamsource":"rtsp", 
+        "cameraip":"", 
+        "rtsp": "", 
+        "rtspport":"554", 
+        "rtspuser":"", 
+        "rtsppwd":"",
+		"fps":25,
+		"width":1280,
+		"height":720,
+		"b_v": "2M",
+		"audio": false,
+		"audioformat":"mp2",
+        "nostats":"",        
+		"player":"jsmpeg",
+        "enabled":false,                               
+    },  
+    
+    {
+        "siteid":"my_home",
+        "cameraid":"drive_way_cam", 
+        "label":"Drive Way Camera", 
+        "videodevice":"",
+        "audiodevice":"",
+        "streamsource":"rtsp", 
+        "cameraip":"", 
+        "rtsp":"", 
+        "rtspport":"554", 
+        "rtspuser":"", 
+        "rtsppwd":"", 
+		"fps":25,
+		"width":1280,
+		"height":720,
+		"b_v": "2M",
+		"audio": false,
+		"audioformat":"mp2",
+        "nostats":"",
+		"player":"jsmpeg",
+        "enabled":false,                              
+    }, 
+    
+    {
+        "siteid":"my_home",
+        "cameraid":"baby_room_camera", 
+        "label":"Baby Room Camera", 
+        "videodevice":"",
+        "audiodevice":"",
+        "streamsource":"rtsp", 
+        "cameraip":"", 
+        "rtsp":"", 
+        "rtspport":"", 
+        "rtspuser":"", 
+        "rtsppwd":"", 
+		"fps":25,
+		"width":1280,
+		"height":720,
+		"b_v": "2M",
+		"audio": false,
+		"audioformat":"mp2",
+        "nostats":"",        
+		"player":"jsmpeg",
+        "enabled":false,                             
+    },     
+     
+]
+
+//-------------------------------------------------------------------------------------------------
+const FFMPEGCMD_TEMPLATE_VS_PLAYER = [
+    {
+        "playerid":"jsmpeg","streamsource":"video","ffmpegcmd":
+        "ffmpeg -f dshow -rtbufsize 1024M -thread_queue_size 1024 -i video=\"${VIDEODEVICE}\"${AUDIODEVICE} -vf \"drawtext=fontfile='./DejaVuSans.ttf':text='%{localtime}':fontcolor=white:fontsize=12:x=10:y=10\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v mpeg1video -b:v ${B_V} ${AUDIOOPTIONS} ${NOSTATS} -tune zerolatency -f mpegts ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+    },
+
+    {
+        "playerid":"jsmpeg","streamsource":"rtsp","ffmpegcmd":
+        "ffmpeg -i ${RTSP} -vf \"drawtext=fontfile='./DejaVuSans.ttf':text='%{localtime}':fontcolor=white:fontsize=24:x=10:y=10\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v mpeg1video -b:v ${B_V} ${AUDIOOPTIONS} ${NOSTATS} -f mpegts ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+    },
+    
+    {
+        "playerid":"jsmpeg-h264", "streamsource":"video", "ffmpegcmd":
+        "ffmpeg -f dshow -i video=\"${VIDEODEVICE}\"${AUDIODEVICE} -vf \"drawtext=fontfile='./DejaVuSans.ttf':text='%{localtime}':fontcolor=white:fontsize=12:x=10:y=10\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v libx264 -b:v ${B_V} -bufsize 1500k -force_key_frames \"expr:gte(t,n_forced*1)\" -profile:v baseline ${AUDIOOPTIONS} -tune zerolatency ${NOSTATS} -f mpegts ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+    },
+
+    {
+        "playerid":"jsmpeg-h264", "streamsource":"rtsp", "ffmpegcmd":
+        "ffmpeg -i ${RTSP} -vf \"drawtext=fontfile='./DejaVuSans.ttf':text='%{localtime}':fontcolor=white:fontsize=24:x=10:y=10\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v libx264 -b:v ${B_V} -bufsize 1500k -force_key_frames \"expr:gte(t,n_forced*1)\" -profile:v baseline -tune zerolatency ${NOSTATS} -f mpegts ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+    }, 
+
+    {
+        "playerid":"h264","streamsource":"video","ffmpegcmd":
+        "ffmpeg -f dshow -i video=\"${VIDEODEVICE}\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -pix_fmt yuv420p -c:v libx264 -b:v ${B_V} -bufsize 500k -profile:v baseline -tune zerolatency -f rawvideo ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+    },
+
+    {
+        "playerid":"h264","streamsource":"rtsp","ffmpegcmd":
+        "",
+    },
+
+    {
+        "playerid":"webm-vp8","streamsource":"video","ffmpegcmd":
+        "ffmpeg -f dshow -i video=\"${VIDEODEVICE}\" -r ${FPS} -s ${WIDTH}x${HEIGHT} -c:v vp8 -b:v ${B_V} -g 25 -f webm ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+    },
+    
+    {
+        "playerid":"webm-vp8","streamsource":"rtsp","ffmpegcmd":
+        "ffmpeg.exe -buffer_size 2000000 -i rtsp://${USER_PWD}@${CAMERAIP}:${RTSPPORT}/${RTSP} -r ${FPS} -s ${WIDTH}x${HEIGHT} -f webm -v:c vp8 -g 20 ${HTTP_PROTOCOL}://${STREAM_SERVICE_IP_PORT}/${TOKEN}/streaming/${CAMERA_ID}",
+    },            
+]
+
+//-------------------------------------------------------------------------------------------------
+const EMAILINFO = {
+    service:'gmail',
+    user:'[yourgmailname]@gmail.com',
+    pass:'your gmail pass key',
+    sender: 'yourgmailname]@gmail.com',
+    recipient: '[yourgmail_or_other_email_address, e,g., abcdc@hotmail.com]'
+}
+
+//-------------------------------------------------------------------------------------------------
+module.exports = {
+    RUNPROTOCOL:RUNPROTOCOL,
+    LAUNCH_STREAMPUMP_SERVICE:LAUNCH_STREAMPUMP_SERVICE,
+    RABBITMQ_USER:RABBITMQ_USER,
+    RABBITMQ_PASSWORD:RABBITMQ_PASSWORD,
+    DEFAULT_LOGIN_EXPIRY_SECONDS:DEFAULT_LOGIN_EXPIRY_SECONDS,
+    DEFAULT_TOKEN_EXPIRY_SECONDS:DEFAULT_TOKEN_EXPIRY_SECONDS,
+    DEFAULT_AUDIENCE:DEFAULT_AUDIENCE,
+    CLIENTSECRETS:CLIENTSECRETS,
+    USERACCOUNTS:USERACCOUNTS,
+    SITE_CAMERAS:SITE_CAMERAS,
+    FFMPEGCMD_TEMPLATE_VS_PLAYER:FFMPEGCMD_TEMPLATE_VS_PLAYER,
+    SSL_KEY_FILE:SSL_KEY_FILE,
+    SSL_CERT_FILE:SSL_CERT_FILE,
+    SENDING_ALERT_EMAIL:SENDING_ALERT_EMAIL,
+    EMAILINFO:EMAILINFO,
+    CV_OPTIONS:CV_OPTIONS,
+    CONTINUOUS_RECORDING:CONTINUOUS_RECORDING,
+    RECORDING_RETENTION_DAYS:RECORDING_RETENTION_DAYS,
+    FOOTAGE_RETENTION_DAYS:FOOTAGE_RETENTION_DAYS,
+}

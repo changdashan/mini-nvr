@@ -1,0 +1,1 @@
+node.exe mini-nvr-min.js password123 8081

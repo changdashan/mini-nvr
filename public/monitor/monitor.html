@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Monitor</title>
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">	
+	<link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../js/libs/jquery-ui-1.14.2/jquery-ui.min.css"> 
+
+    <style>
+
+        .ui-dialog .ui-dialog-content {
+            overflow: hidden !important;
+            padding-left: 0px !important;
+            padding-top: 0px !important;            
+        }
+
+        .ui-dialog .ui-dialog-titlebar span.ui-dialog-title {
+            font-size: 12px !important;
+            font-weight: normal;
+        }
+
+        .circle {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .reddot {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            display: none;
+        } 
+        
+        #event_alert {
+            width: 500px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;            
+        }
+
+        #audio_beep {
+            display: none;
+        }        
+        
+    </style>
+
+
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/external/jquery/jquery-4.0.0.min.js"></script>
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/jquery-ui.min.js"></script>     
+    <script type="text/javascript" src="../js/libs/jquery-ui-1.14.2/jquery.ui.touch-punch.min.js"></script> 
+
+    <link href="../js/libs/jquery.splitter/css/jquery.splitter.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../js/libs/jquery.splitter/js/jquery.splitter.js"></script>        
+
+    <script type="text/javascript" src="../js/libs/jsmpeg/jsmpeg.min.js"></script>        
+
+    <script type="text/javascript" src="../js/libs/h264/h264.js"></script>
+    <script type="text/javascript" src="../js/libs/h264/h264videoplayer.min.js"></script>        
+        
+    <!--aac audio player package-->
+    <script type="text/javascript" src="../js/libs/aac/aurora.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faac.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faurora-websocket.js"></script>
+    <script type="text/javascript" src="../js/libs/aac/faacaudio.js"></script>
+
+	<script type="text/javascript" src="../requestauthtoken.js"></script>
+	<script type="text/javascript" src="monitor.min.js"></script>    		
+	
+</head>
+
+<body>
+
+    <div id="monitor_panels" style="border:1px solid #ccc; width:100%;height:1600px">
+
+        <div id="liveview" style="width:100%;height:1600px; overflow-y:auto">
+
+        </div>
+
+        <div id="eventview_panels" style="border:1px solid #ccc; width:100%;height:1600px; overflow-y:auto">
+
+            <div id="snapshotIcons" style="display:flex;align-items:center;width:100%;height:150px;margin:1px"></div>
+ 
+            <div id="playbackDiv">
+                <div>
+                    <div id="event_alert">Events in last two hours:&nbsp; <span id='eventcount'>0</span>
+                        <div class="circle"><div id="redDot" class="reddot"></div></div>
+                        <audio id="audio_beep" ></audio>
+                        <input type="checkbox" id="chkbeep" value="yes"><label for="chkbeep">&nbsp;Beep</label>
+                    </div>
+                    <video id="videoShowRecording" autoplay controls="true" playsinline style="object-fit:fill; margin:2px">
+                        <source src="" type="video/mp4;charset=UTF-8">
+                        </source>
+                    </video>
+                </div>
+                <div>
+                    <img id="imgShowSnapshot" style="margin:2px"/>
+                </div>                
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
